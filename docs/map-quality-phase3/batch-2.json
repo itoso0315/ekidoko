@@ -1753,15 +1753,25 @@
   ],
   "failures": [
     {
-      "stationId": "kashiwa",
+      "stationId": "akihabara",
       "hint": 3,
-      "error": "Expected: non-empty\n  Actual: []\n秋葉原 hint3 facilities\n",
-      "renderStatus": "failed"
+      "error": "H3施設名が0件",
+      "renderStatus": "failed",
+      "category": "required-label-content"
     }
   ],
   "completed": false,
   "difficulty": "Hard",
   "testSetupToHomeMapMs": 3653,
   "quizTransitionMs": 535,
-  "screenshotCopyErrors": []
+  "screenshotCopyErrors": [],
+  "rawTestFailures": [
+    {
+      "stationId": "kashiwa",
+      "hint": 3,
+      "error": "Expected: non-empty\n  Actual: []\n秋葉原 hint3 facilities\n",
+      "renderStatus": "failed"
+    }
+  ],
+  "failureAttributionReview": "End-of-game label assertions originally attributed a prior station failure to the last question. Per-stage records identify the station with missing label content; original harness failures are retained."
 }
