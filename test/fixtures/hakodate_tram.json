@@ -1,0 +1,285 @@
+{
+  "elements": [
+    {
+      "type": "way",
+      "id": 651619021,
+      "bounds": {
+        "minlat": 41.7711445,
+        "minlon": 140.7280432,
+        "maxlat": 41.7726338,
+        "maxlon": 140.7329327
+      },
+      "geometry": [
+        {
+          "lat": 41.7712058,
+          "lon": 140.7329327
+        },
+        {
+          "lat": 41.7711711,
+          "lon": 140.7328574
+        },
+        {
+          "lat": 41.7711577,
+          "lon": 140.7328119
+        },
+        {
+          "lat": 41.7711531,
+          "lon": 140.7327965
+        },
+        {
+          "lat": 41.7711445,
+          "lon": 140.7326943
+        },
+        {
+          "lat": 41.7711623,
+          "lon": 140.7325799
+        },
+        {
+          "lat": 41.7711833,
+          "lon": 140.7325145
+        },
+        {
+          "lat": 41.7713266,
+          "lon": 140.732095
+        },
+        {
+          "lat": 41.7715128,
+          "lon": 140.73155
+        },
+        {
+          "lat": 41.7715636,
+          "lon": 140.7314012
+        },
+        {
+          "lat": 41.7716396,
+          "lon": 140.7311787
+        },
+        {
+          "lat": 41.7721181,
+          "lon": 140.7297896
+        },
+        {
+          "lat": 41.7721199,
+          "lon": 140.7297815
+        },
+        {
+          "lat": 41.7721775,
+          "lon": 140.7296165
+        },
+        {
+          "lat": 41.7722408,
+          "lon": 140.7294326
+        },
+        {
+          "lat": 41.7722414,
+          "lon": 140.729433
+        },
+        {
+          "lat": 41.7726085,
+          "lon": 140.728362
+        },
+        {
+          "lat": 41.7726258,
+          "lon": 140.7283129
+        },
+        {
+          "lat": 41.7726338,
+          "lon": 140.7282423
+        },
+        {
+          "lat": 41.77263,
+          "lon": 140.7281974
+        },
+        {
+          "lat": 41.7726233,
+          "lon": 140.7281626
+        },
+        {
+          "lat": 41.7726087,
+          "lon": 140.7281235
+        },
+        {
+          "lat": 41.7725774,
+          "lon": 140.7280698
+        },
+        {
+          "lat": 41.7725517,
+          "lon": 140.7280432
+        }
+      ],
+      "tags": {
+        "KSJ2:LIN": "大森線",
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1372",
+        "name": "函館市電大森線",
+        "name:en": "Hakodate City Tram Ōmori Line",
+        "name:ja": "函館市電大森線",
+        "note": "National-Land Numerical Information (Railway) 2007, MLIT Japan",
+        "note:ja": "国土数値情報（鉄道データ）平成19年　国土交通省",
+        "operator": "函館市企業局交通部",
+        "operator:ja": "函館市企業局交通部",
+        "railway": "tram",
+        "source": "KSJ2",
+        "source_ref": "http://nlftp.mlit.go.jp/ksj/jpgis/datalist/KsjTmplt-N02-v1_1.html",
+        "voltage": "600"
+      }
+    },
+    {
+      "type": "way",
+      "id": 651619022,
+      "bounds": {
+        "minlat": 41.7711765,
+        "minlon": 140.7280152,
+        "maxlat": 41.7726604,
+        "maxlon": 140.7329005
+      },
+      "geometry": [
+        {
+          "lat": 41.7725732,
+          "lon": 140.7280152
+        },
+        {
+          "lat": 41.7726129,
+          "lon": 140.7280626
+        },
+        {
+          "lat": 41.7726391,
+          "lon": 140.728106
+        },
+        {
+          "lat": 41.7726384,
+          "lon": 140.7281091
+        },
+        {
+          "lat": 41.7726448,
+          "lon": 140.7281279
+        },
+        {
+          "lat": 41.7726549,
+          "lon": 140.7281665
+        },
+        {
+          "lat": 41.7726604,
+          "lon": 140.7282322
+        },
+        {
+          "lat": 41.7726554,
+          "lon": 140.7282972
+        },
+        {
+          "lat": 41.7726364,
+          "lon": 140.7283797
+        },
+        {
+          "lat": 41.7722638,
+          "lon": 140.7294502
+        },
+        {
+          "lat": 41.7721993,
+          "lon": 140.7296344
+        },
+        {
+          "lat": 41.7721405,
+          "lon": 140.7298058
+        },
+        {
+          "lat": 41.7716618,
+          "lon": 140.7311985
+        },
+        {
+          "lat": 41.7715853,
+          "lon": 140.7314219
+        },
+        {
+          "lat": 41.7715362,
+          "lon": 140.7315652
+        },
+        {
+          "lat": 41.7713483,
+          "lon": 140.7321142
+        },
+        {
+          "lat": 41.771206,
+          "lon": 140.7325301
+        },
+        {
+          "lat": 41.7711863,
+          "lon": 140.732592
+        },
+        {
+          "lat": 41.7711765,
+          "lon": 140.7326964
+        },
+        {
+          "lat": 41.7711866,
+          "lon": 140.7327848
+        },
+        {
+          "lat": 41.7711888,
+          "lon": 140.7327936
+        },
+        {
+          "lat": 41.7712016,
+          "lon": 140.7328436
+        },
+        {
+          "lat": 41.7712127,
+          "lon": 140.7328691
+        },
+        {
+          "lat": 41.7712301,
+          "lon": 140.7329005
+        }
+      ],
+      "tags": {
+        "KSJ2:LIN": "大森線",
+        "electrified": "contact_line",
+        "frequency": "0",
+        "gauge": "1372",
+        "name": "函館市電大森線",
+        "name:en": "Hakodate City Tram Ōmori Line",
+        "name:ja": "函館市電大森線",
+        "note": "National-Land Numerical Information (Railway) 2007, MLIT Japan",
+        "note:ja": "国土数値情報（鉄道データ）平成19年　国土交通省",
+        "operator": "函館市企業局交通部",
+        "operator:ja": "函館市企業局交通部",
+        "railway": "tram",
+        "source": "KSJ2",
+        "source_ref": "http://nlftp.mlit.go.jp/ksj/jpgis/datalist/KsjTmplt-N02-v1_1.html",
+        "voltage": "600"
+      }
+    },
+    {
+      "type": "way",
+      "id": 39635898,
+      "center": {
+        "lat": 41.7967185,
+        "lon": 140.7568375
+      },
+      "tags": {
+        "addr:city": "函館市",
+        "addr:neighbourhood": "44",
+        "addr:province": "北海道",
+        "addr:quarter": "五稜郭町",
+        "leisure": "park",
+        "name": "五稜郭公園",
+        "name:cs": "zahrady Gorjókaku",
+        "name:en": "Goryōkaku Garden",
+        "name:fr": "Parc de Goryōkaku",
+        "name:ja": "五稜郭公園",
+        "name:ja-Hira": "ごりょうかくこうえん",
+        "name:ja-Latn": "Goryōkaku-kōen",
+        "name:ko": "고료 카쿠 공원",
+        "opening_hours": "Apr-Oct: Mo-Su 05:00-19:00; Nov-Mar: Mo-Su 05:00-18:00",
+        "sorting_name:cs": "Gorjókaku",
+        "website": "https://www.hakodate-jts-kosya.jp/park/goryokaku/"
+      }
+    }
+  ],
+  "osm3s": {
+    "timestamp_osm_base": "2026-10-13T14:18:51Z",
+    "copyright": "The data included in this document is from www.openstreetmap.org. The data is made available under ODbL."
+  },
+  "_source": "https://overpass-api.de/api/interpreter"
+}

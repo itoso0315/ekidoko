@@ -1,0 +1,8 @@
+{
+  "environment": "iPhone 17 Pro / iOS 26.5 simulator, debug integration run",
+  "scope": "Simulator debug integration run including screenshot buffers, Flutter and native tile caches. Not release/iPhone measurements.",
+  "sampleCount": 87,
+  "minRssMiB": 84.671875,
+  "maxRssMiB": 1363.59375,
+  "caveat": "Includes JIT/native caches and retention/serialization of 83 screenshot buffers. Not release app or real iPhone memory; cannot attribute this peak to the station catalog alone."
+}

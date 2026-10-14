@@ -1,0 +1,506 @@
+[
+  {
+    "id": "tokyo",
+    "name": "東京",
+    "nameKana": "とうきょう",
+    "latitude": 35.6812546,
+    "longitude": 139.766706,
+    "osmNodeId": 2149761647,
+    "prefecture": "東京都",
+    "region": "関東",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "山手線",
+      "中央線"
+    ],
+    "answerAliases": [
+      "tokyo",
+      "tōkyō",
+      "tokio",
+      "东京"
+    ],
+    "blockedLabels": [],
+    "allowedLabels": [
+      "東京タワー",
+      "東京国際フォーラム",
+      "東京国立近代美術館",
+      "東京国立博物館",
+      "東京都庁"
+    ]
+  },
+  {
+    "id": "shinjuku",
+    "name": "新宿",
+    "nameKana": "しんじゅく",
+    "latitude": 35.6902618,
+    "longitude": 139.7005142,
+    "osmNodeId": 2389061844,
+    "prefecture": "東京都",
+    "region": "関東",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "山手線",
+      "小田急線"
+    ],
+    "answerAliases": [
+      "shinjuku",
+      "sinjuku"
+    ],
+    "blockedLabels": [],
+    "allowedLabels": []
+  },
+  {
+    "id": "shibuya",
+    "name": "渋谷",
+    "nameKana": "しぶや",
+    "latitude": 35.65808,
+    "longitude": 139.7017647,
+    "osmNodeId": 241896099,
+    "prefecture": "東京都",
+    "region": "関東",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "山手線",
+      "東横線"
+    ],
+    "answerAliases": [
+      "shibuya",
+      "sibuya",
+      "涩谷",
+      "澀谷"
+    ],
+    "blockedLabels": [],
+    "allowedLabels": []
+  },
+  {
+    "id": "shinagawa",
+    "name": "品川",
+    "nameKana": "しながわ",
+    "latitude": 35.6286688,
+    "longitude": 139.7391673,
+    "osmNodeId": 4011643454,
+    "prefecture": "東京都",
+    "region": "関東",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "山手線",
+      "京急本線"
+    ],
+    "answerAliases": [
+      "shinagawa"
+    ],
+    "blockedLabels": [],
+    "allowedLabels": []
+  },
+  {
+    "id": "ueno",
+    "name": "上野",
+    "nameKana": "うえの",
+    "latitude": 35.7134128,
+    "longitude": 139.7765418,
+    "osmNodeId": 236578444,
+    "prefecture": "東京都",
+    "region": "関東",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "山手線",
+      "常磐線"
+    ],
+    "answerAliases": [
+      "ueno"
+    ],
+    "blockedLabels": [],
+    "allowedLabels": []
+  },
+  {
+    "id": "ikebukuro",
+    "name": "池袋",
+    "nameKana": "いけぶくろ",
+    "latitude": 35.730185,
+    "longitude": 139.7111512,
+    "osmNodeId": 2558121915,
+    "prefecture": "東京都",
+    "region": "関東",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "山手線",
+      "西武池袋線"
+    ],
+    "answerAliases": [
+      "ikebukuro"
+    ],
+    "blockedLabels": [],
+    "allowedLabels": []
+  },
+  {
+    "id": "nagoya",
+    "name": "名古屋",
+    "nameKana": "なごや",
+    "latitude": 35.1707285,
+    "longitude": 136.8818431,
+    "osmNodeId": 4919810141,
+    "prefecture": "愛知県",
+    "region": "中部",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "東海道本線",
+      "中央本線"
+    ],
+    "answerAliases": [
+      "nagoya"
+    ],
+    "blockedLabels": [],
+    "allowedLabels": [
+      "名古屋城",
+      "名古屋市科学館",
+      "名古屋市美術館"
+    ]
+  },
+  {
+    "id": "osaka",
+    "name": "大阪",
+    "nameKana": "おおさか",
+    "latitude": 34.7022133,
+    "longitude": 135.4955732,
+    "osmNodeId": 346685291,
+    "prefecture": "大阪府",
+    "region": "近畿",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "大阪環状線",
+      "東海道本線"
+    ],
+    "answerAliases": [
+      "osaka",
+      "ōsaka"
+    ],
+    "blockedLabels": [],
+    "allowedLabels": [
+      "大阪城",
+      "大阪市立科学館",
+      "大阪中之島美術館"
+    ]
+  },
+  {
+    "id": "kyoto",
+    "name": "京都",
+    "nameKana": "きょうと",
+    "latitude": 34.9853497,
+    "longitude": 135.758766,
+    "osmNodeId": 267316272,
+    "prefecture": "京都府",
+    "region": "近畿",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "東海道本線",
+      "奈良線"
+    ],
+    "answerAliases": [
+      "kyoto",
+      "kyōto"
+    ],
+    "blockedLabels": [],
+    "allowedLabels": [
+      "京都タワー",
+      "京都国立博物館",
+      "京都水族館",
+      "京都鉄道博物館"
+    ]
+  },
+  {
+    "id": "yokohama",
+    "name": "横浜",
+    "nameKana": "よこはま",
+    "latitude": 35.465807,
+    "longitude": 139.622266,
+    "osmNodeId": 3995909017,
+    "prefecture": "神奈川県",
+    "region": "関東",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "東海道本線",
+      "東横線"
+    ],
+    "answerAliases": [
+      "yokohama"
+    ],
+    "blockedLabels": [],
+    "allowedLabels": []
+  },
+  {
+    "id": "sapporo",
+    "name": "札幌",
+    "nameKana": "さっぽろ",
+    "latitude": 43.0686365,
+    "longitude": 141.3509218,
+    "osmNodeId": 4086852685,
+    "prefecture": "北海道",
+    "region": "北海道",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "函館線",
+      "千歳線",
+      "函館本線"
+    ],
+    "answerAliases": [
+      "sapporo"
+    ],
+    "blockedLabels": [
+      "サツエキ",
+      "札駅"
+    ],
+    "allowedLabels": [
+      "さっぽろテレビ塔",
+      "札幌市時計台",
+      "札幌市資料館"
+    ]
+  },
+  {
+    "id": "sendai",
+    "name": "仙台",
+    "nameKana": "せんだい",
+    "latitude": 38.2603516,
+    "longitude": 140.8823921,
+    "osmNodeId": 3570916502,
+    "prefecture": "宮城県",
+    "region": "東北",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "東北本線",
+      "東北新幹線",
+      "仙山線",
+      "仙石線"
+    ],
+    "answerAliases": [
+      "sendai"
+    ],
+    "blockedLabels": [],
+    "allowedLabels": [
+      "仙台城跡",
+      "仙台市博物館",
+      "仙台市"
+    ]
+  },
+  {
+    "id": "omiya",
+    "name": "大宮",
+    "nameKana": "おおみや",
+    "latitude": 35.9063773,
+    "longitude": 139.6243335,
+    "osmNodeId": 264211486,
+    "prefecture": "埼玉県",
+    "region": "関東",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "高崎線",
+      "湘南新宿ライン",
+      "東北本線",
+      "京浜東北線",
+      "東北新幹線"
+    ],
+    "answerAliases": [
+      "omiya",
+      "ōmiya"
+    ],
+    "blockedLabels": [],
+    "allowedLabels": [
+      "大宮公園"
+    ]
+  },
+  {
+    "id": "kanazawa",
+    "name": "金沢",
+    "nameKana": "かなざわ",
+    "latitude": 36.5780499,
+    "longitude": 136.6480247,
+    "osmNodeId": 3977645705,
+    "prefecture": "石川県",
+    "region": "中部・北陸",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "北陸新幹線",
+      "IRいしかわ鉄道線",
+      "北陸鉄道浅野川線"
+    ],
+    "answerAliases": [
+      "kanazawa"
+    ],
+    "blockedLabels": [],
+    "allowedLabels": [
+      "金沢城公園",
+      "金沢21世紀美術館",
+      "金沢市"
+    ]
+  },
+  {
+    "id": "shizuoka",
+    "name": "静岡",
+    "nameKana": "しずおか",
+    "latitude": 34.9715372,
+    "longitude": 138.3883294,
+    "osmNodeId": 3999393706,
+    "prefecture": "静岡県",
+    "region": "中部",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "東海道本線",
+      "東海道新幹線"
+    ],
+    "answerAliases": [
+      "shizuoka"
+    ],
+    "blockedLabels": [],
+    "allowedLabels": [
+      "静岡市美術館",
+      "静岡市"
+    ]
+  },
+  {
+    "id": "shin_osaka",
+    "name": "新大阪",
+    "nameKana": "しんおおさか",
+    "latitude": 34.7335385,
+    "longitude": 135.5001888,
+    "osmNodeId": 3626952971,
+    "prefecture": "大阪府",
+    "region": "関西",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "東海道新幹線",
+      "山陽新幹線",
+      "東海道本線",
+      "Osaka Metro御堂筋線",
+      "おおさか東線"
+    ],
+    "answerAliases": [
+      "shin-osaka",
+      "shin-ōsaka",
+      "shin osaka",
+      "shinosaka"
+    ],
+    "blockedLabels": [],
+    "allowedLabels": []
+  },
+  {
+    "id": "sannomiya",
+    "name": "三ノ宮",
+    "nameKana": "さんのみや",
+    "latitude": 34.6948605,
+    "longitude": 135.1950871,
+    "osmNodeId": 3999683422,
+    "prefecture": "兵庫県",
+    "region": "関西",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "東海道本線",
+      "ポートライナー",
+      "阪急電鉄神戸線",
+      "神戸市営地下鉄西神・山手線",
+      "阪神電気鉄道本線"
+    ],
+    "answerAliases": [
+      "三宮",
+      "sannomiya"
+    ],
+    "blockedLabels": [],
+    "allowedLabels": []
+  },
+  {
+    "id": "hiroshima",
+    "name": "広島",
+    "nameKana": "ひろしま",
+    "latitude": 34.3985139,
+    "longitude": 132.4753527,
+    "osmNodeId": 6624627173,
+    "prefecture": "広島県",
+    "region": "中国",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "芸備線",
+      "山陽本線",
+      "山陽新幹線"
+    ],
+    "answerAliases": [
+      "hiroshima",
+      "hirosima"
+    ],
+    "blockedLabels": [],
+    "allowedLabels": [
+      "広島城",
+      "広島平和記念資料館",
+      "広島市"
+    ]
+  },
+  {
+    "id": "takamatsu",
+    "name": "高松",
+    "nameKana": "たかまつ",
+    "latitude": 34.350692,
+    "longitude": 134.0461528,
+    "osmNodeId": 8667971394,
+    "prefecture": "香川県",
+    "region": "四国",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "予讃線",
+      "高徳線"
+    ],
+    "answerAliases": [
+      "takamatsu"
+    ],
+    "blockedLabels": [
+      "左甚五郎美術館"
+    ],
+    "allowedLabels": [
+      "高松城跡",
+      "高松城",
+      "史跡高松城跡 玉藻公園",
+      "高松市"
+    ]
+  },
+  {
+    "id": "hakata",
+    "name": "博多",
+    "nameKana": "はかた",
+    "latitude": 33.5900436,
+    "longitude": 130.4203556,
+    "osmNodeId": 3637038754,
+    "prefecture": "福岡県",
+    "region": "九州",
+    "difficulty": 1,
+    "enabled": true,
+    "routes": [
+      "福岡市地下鉄空港線",
+      "鹿児島本線",
+      "篠栗線",
+      "福岡市地下鉄七隈線",
+      "山陽新幹線"
+    ],
+    "answerAliases": [
+      "hakata"
+    ],
+    "blockedLabels": [],
+    "allowedLabels": [
+      "博多区"
+    ]
+  }
+]

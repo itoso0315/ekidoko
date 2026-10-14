@@ -1,0 +1,178 @@
+{
+  "exceptions": [
+    {
+      "stationId": "hakodate",
+      "name": "函館市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 3229063363
+    },
+    {
+      "stationId": "asahikawa",
+      "name": "旭川市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 184366763
+    },
+    {
+      "stationId": "morioka",
+      "name": "盛岡市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 471357225
+    },
+    {
+      "stationId": "tachikawa",
+      "name": "立川市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 1440311172
+    },
+    {
+      "stationId": "kawasaki",
+      "name": "川崎市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 1933981790
+    },
+    {
+      "stationId": "kawasaki",
+      "name": "川崎区",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 1937887244
+    },
+    {
+      "stationId": "chiba",
+      "name": "千葉市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 3675848658
+    },
+    {
+      "stationId": "funabashi",
+      "name": "船橋市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 264883234
+    },
+    {
+      "stationId": "kashiwa",
+      "name": "柏市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 2098183362
+    },
+    {
+      "stationId": "chikusa",
+      "name": "千種区",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 569005528
+    },
+    {
+      "stationId": "gifu",
+      "name": "岐阜市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 5488948282
+    },
+    {
+      "stationId": "hamamatsu",
+      "name": "浜松市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 763118297
+    },
+    {
+      "stationId": "nagano",
+      "name": "長野市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 702987391
+    },
+    {
+      "stationId": "niigata",
+      "name": "新潟市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 752398625
+    },
+    {
+      "stationId": "tennoji",
+      "name": "天王寺区",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 551367015
+    },
+    {
+      "stationId": "nara",
+      "name": "奈良市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 1922043513
+    },
+    {
+      "stationId": "kobe_jr",
+      "name": "神戸市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 721818614
+    },
+    {
+      "stationId": "okayama",
+      "name": "岡山市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 703048335
+    },
+    {
+      "stationId": "fukuyama",
+      "name": "福山市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 1985508816
+    },
+    {
+      "stationId": "matsue",
+      "name": "松江市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 1735961887
+    },
+    {
+      "stationId": "tokushima",
+      "name": "徳島市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 263264345
+    },
+    {
+      "stationId": "kochi",
+      "name": "高知市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 574820566
+    },
+    {
+      "stationId": "kumamoto",
+      "name": "熊本市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 642042925
+    },
+    {
+      "stationId": "kurume",
+      "name": "久留米市",
+      "reason": "OSMのplace地名。駅そのもの・駅前施設ではなく推理用の市/区名として許可。",
+      "osmType": "node",
+      "osmId": 3056729963
+    }
+  ],
+  "routeNormalization": {
+    "rule": "railway=tramの都市名+市電接頭辞だけを取り、元データにある支線名を表示する共通処理。",
+    "example": "函館市電大森線 → 大森線",
+    "source": "https://www.pref.hokkaido.lg.jp/fs/1/1/4/8/9/0/5/4/_/I%20%E5%8C%97%E6%B5%B7%E9%81%93%E3%81%AE%E4%BA%A4%E9%80%9A%E5%9F%BA%E7%9B%A4%E3%81%AE%E7%8F%BE%E6%B3%81.pdf",
+    "reason": "函館を含む接頭辞で全市電路線が除外され、ヒント2の画面内に安全な路線名がなくなる不備を回避。実線形・正式支線名を保持。"
+  }
+}

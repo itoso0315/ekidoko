@@ -1,0 +1,142 @@
+{
+  "environment": "iPhone 17 Pro / iOS 26.5 simulator, debug; network and tile cache enabled",
+  "batch": 2,
+  "records": [
+    {
+      "stationId": "hakodate",
+      "stationName": "函館",
+      "hint": 0,
+      "elapsedFromActionMs": 2083,
+      "zoom": 15.330751024534358,
+      "latitude": 41.7743441,
+      "longitude": 140.72624859999996,
+      "counts": {
+        "roads": 56,
+        "rails": 5,
+        "buildings": 12,
+        "labels": 0,
+        "routeLabels": 0
+      },
+      "roadCount": 56,
+      "railCount": 5,
+      "buildingCount": 12,
+      "waterCount": 1,
+      "parkCount": 7,
+      "routeNames": [],
+      "placeNames": [],
+      "facilityNames": [],
+      "labelNames": [],
+      "catalogLoadMs": 38,
+      "hintAssetLoadMs": 255,
+      "renderStatus": "ok",
+      "labelFilterStatus": "passed",
+      "visualLabelReview": "unconfirmed",
+      "tileCompleteness": "Individual tile completeness is not exposed by this SDK",
+      "difficulty": "Hard",
+      "rssBytes": 242909184,
+      "screenshot": "stations/hakodate/initial.jpg"
+    },
+    {
+      "stationId": "hakodate",
+      "stationName": "函館",
+      "hint": 1,
+      "elapsedFromActionMs": 1424,
+      "zoom": 14.330751024534358,
+      "latitude": 41.7743441,
+      "longitude": 140.72624860000002,
+      "counts": {
+        "roads": 113,
+        "rails": 7,
+        "buildings": 22,
+        "labels": 0,
+        "routeLabels": 0
+      },
+      "roadCount": 113,
+      "railCount": 7,
+      "buildingCount": 22,
+      "waterCount": 3,
+      "parkCount": 26,
+      "routeNames": [],
+      "placeNames": [],
+      "facilityNames": [],
+      "labelNames": [],
+      "catalogLoadMs": 38,
+      "hintAssetLoadMs": 255,
+      "renderStatus": "ok",
+      "labelFilterStatus": "passed",
+      "visualLabelReview": "unconfirmed",
+      "tileCompleteness": "Individual tile completeness is not exposed by this SDK",
+      "difficulty": "Hard",
+      "rssBytes": 295649280,
+      "screenshot": "stations/hakodate/hint1.jpg"
+    },
+    {
+      "stationId": "hakodate",
+      "stationName": "函館",
+      "hint": 2,
+      "elapsedFromActionMs": 1469,
+      "zoom": 12.745788523813204,
+      "latitude": 41.7743441,
+      "longitude": 140.72624860000002,
+      "counts": {
+        "roads": 189,
+        "rails": 1,
+        "buildings": 0,
+        "labels": 0,
+        "routeLabels": 2
+      },
+      "roadCount": 189,
+      "railCount": 1,
+      "buildingCount": 0,
+      "waterCount": 18,
+      "parkCount": 2,
+      "routeNames": [
+        "湯の川線",
+        "本線"
+      ],
+      "placeNames": [],
+      "facilityNames": [],
+      "labelNames": [],
+      "catalogLoadMs": 38,
+      "hintAssetLoadMs": 255,
+      "renderStatus": "ok",
+      "labelFilterStatus": "passed",
+      "visualLabelReview": "unconfirmed",
+      "tileCompleteness": "Individual tile completeness is not exposed by this SDK",
+      "difficulty": "Hard",
+      "rssBytes": 266043392,
+      "screenshot": "stations/hakodate/hint2.jpg"
+    }
+  ],
+  "failures": [
+    {
+      "stationId": "hakodate",
+      "hint": 3,
+      "error": "Diagnostic only: 2 routes when other labels are hidden",
+      "renderStatus": "failed"
+    }
+  ],
+  "completed": false,
+  "difficulty": "Hard",
+  "testSetupToHomeMapMs": 2721,
+  "quizTransitionMs": 549,
+  "diagnostics": [
+    {
+      "stationId": "hakodate",
+      "hint": 3,
+      "counts": {
+        "roads": 255,
+        "rails": 1,
+        "buildings": 0,
+        "labels": 13,
+        "routeLabels": 0
+      },
+      "routeLabelsWithoutOtherLabels": 2,
+      "routeNamesWithoutOtherLabels": [
+        "湯の川線",
+        "本線"
+      ]
+    }
+  ],
+  "screenshotCopyErrors": []
+}

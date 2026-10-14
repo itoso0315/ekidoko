@@ -1,0 +1,26 @@
+name: ekidoko
+description: 駅を推理するiPhone向けクイズゲームのUIモック。
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  maplibre_gl: ^0.27.1
+  url_launcher: ^6.3.3
+
+dev_dependencies:
+  integration_test:
+    sdk: flutter
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/data/stations.json
+    - assets/maps/
