@@ -1,0 +1,476 @@
+{
+  "scope": "Tokyo, Ueno and Kyoto only",
+  "records": [
+    {
+      "stationId": "tokyo",
+      "hint": 0,
+      "stage": "initial",
+      "elapsedMs": 4910,
+      "zoom": 15.441665694017601,
+      "center": [
+        139.76670600000006,
+        35.681254599999974
+      ],
+      "roads": 273,
+      "rails": 12,
+      "buildings": 51,
+      "facilityIconCount": 3,
+      "facilityIds": [
+        2214684270,
+        3164340661,
+        4646514991
+      ],
+      "facilityKinds": [
+        "culture",
+        "shopping"
+      ],
+      "routeColourFeatureCount": 0,
+      "routeColours": [],
+      "routeLabelCount": 0,
+      "routeNames": [],
+      "placeLabelCount": 0,
+      "facilityLabelCount": 0,
+      "screenshot": "docs/screenshots/map-hints-poc/tokyo/initial.jpg"
+    },
+    {
+      "stationId": "tokyo",
+      "hint": 1,
+      "stage": "hint1",
+      "elapsedMs": 1687,
+      "zoom": 14.441665694017601,
+      "center": [
+        139.76670599999994,
+        35.681254599999974
+      ],
+      "roads": 558,
+      "rails": 27,
+      "buildings": 130,
+      "facilityIconCount": 4,
+      "facilityIds": [
+        2214684270,
+        3164340661,
+        4646514991,
+        6604348338
+      ],
+      "facilityKinds": [
+        "culture",
+        "education",
+        "shopping"
+      ],
+      "routeColourFeatureCount": 14,
+      "routeColours": [
+        "#00BFFF",
+        "#B1CB39",
+        "#F15620",
+        "#F62E36"
+      ],
+      "routeLabelCount": 0,
+      "routeNames": [],
+      "placeLabelCount": 0,
+      "facilityLabelCount": 0,
+      "screenshot": "docs/screenshots/map-hints-poc/tokyo/hint1.jpg"
+    },
+    {
+      "stationId": "tokyo",
+      "hint": 2,
+      "stage": "hint2",
+      "elapsedMs": 2312,
+      "zoom": 12.856703193296447,
+      "center": [
+        139.76670599999994,
+        35.681254599999974
+      ],
+      "roads": 1600,
+      "rails": 12,
+      "buildings": 0,
+      "facilityIconCount": 4,
+      "facilityIds": [
+        2214684270,
+        3164340661,
+        4646514991,
+        6604348338
+      ],
+      "facilityKinds": [
+        "culture",
+        "education",
+        "shopping"
+      ],
+      "routeColourFeatureCount": 14,
+      "routeColours": [
+        "#00BFFF",
+        "#B1CB39",
+        "#F15620",
+        "#F62E36"
+      ],
+      "routeLabelCount": 3,
+      "routeNames": [
+        "中央線快速",
+        "丸ノ内線",
+        "山手線"
+      ],
+      "placeLabelCount": 0,
+      "facilityLabelCount": 0,
+      "screenshot": "docs/screenshots/map-hints-poc/tokyo/hint2.jpg"
+    },
+    {
+      "stationId": "tokyo",
+      "hint": 3,
+      "stage": "hint3",
+      "elapsedMs": 2462,
+      "zoom": 12.11973759913024,
+      "center": [
+        139.766706,
+        35.681254599999974
+      ],
+      "roads": 3866,
+      "rails": 19,
+      "buildings": 0,
+      "facilityIconCount": 4,
+      "facilityIds": [
+        2214684270,
+        3164340661,
+        4646514991,
+        6604348338
+      ],
+      "facilityKinds": [
+        "culture",
+        "education",
+        "shopping"
+      ],
+      "routeColourFeatureCount": 20,
+      "routeColours": [
+        "#00BFFF",
+        "#B1CB39",
+        "#F15620",
+        "#F62E36"
+      ],
+      "routeLabelCount": 3,
+      "routeNames": [
+        "中央線快速",
+        "山手線"
+      ],
+      "placeLabelCount": 9,
+      "facilityLabelCount": 2,
+      "screenshot": "docs/screenshots/map-hints-poc/tokyo/hint3.jpg"
+    },
+    {
+      "stationId": "ueno",
+      "hint": 0,
+      "stage": "initial",
+      "elapsedMs": 2856,
+      "zoom": 15.4410838965337,
+      "center": [
+        139.77654180000002,
+        35.71341280000001
+      ],
+      "roads": 131,
+      "rails": 20,
+      "buildings": 44,
+      "facilityIconCount": 3,
+      "facilityIds": [
+        203960903,
+        441655802,
+        625528441
+      ],
+      "facilityKinds": [
+        "culture",
+        "education"
+      ],
+      "routeColourFeatureCount": 0,
+      "routeColours": [],
+      "routeLabelCount": 0,
+      "routeNames": [],
+      "placeLabelCount": 0,
+      "facilityLabelCount": 0,
+      "screenshot": "docs/screenshots/map-hints-poc/ueno/initial.jpg"
+    },
+    {
+      "stationId": "ueno",
+      "hint": 1,
+      "stage": "hint1",
+      "elapsedMs": 2426,
+      "zoom": 14.4410838965337,
+      "center": [
+        139.77654180000007,
+        35.71341280000001
+      ],
+      "roads": 293,
+      "rails": 34,
+      "buildings": 88,
+      "facilityIconCount": 5,
+      "facilityIds": [
+        138585452,
+        203960902,
+        203960903,
+        441655802,
+        625528441
+      ],
+      "facilityKinds": [
+        "culture",
+        "education",
+        "religion"
+      ],
+      "routeColourFeatureCount": 16,
+      "routeColours": [
+        "#00BFFF",
+        "#B1CB39",
+        "#B5B5AC",
+        "#FF9500"
+      ],
+      "routeLabelCount": 0,
+      "routeNames": [],
+      "placeLabelCount": 0,
+      "facilityLabelCount": 0,
+      "screenshot": "docs/screenshots/map-hints-poc/ueno/hint1.jpg"
+    },
+    {
+      "stationId": "ueno",
+      "hint": 2,
+      "stage": "hint2",
+      "elapsedMs": 2013,
+      "zoom": 12.856121395812544,
+      "center": [
+        139.77654180000007,
+        35.71341280000001
+      ],
+      "roads": 970,
+      "rails": 14,
+      "buildings": 0,
+      "facilityIconCount": 5,
+      "facilityIds": [
+        138585452,
+        203960902,
+        203960903,
+        441655802,
+        625528441
+      ],
+      "facilityKinds": [
+        "culture",
+        "education",
+        "religion"
+      ],
+      "routeColourFeatureCount": 8,
+      "routeColours": [
+        "#00BFFF",
+        "#B1CB39",
+        "#B5B5AC",
+        "#FF9500"
+      ],
+      "routeLabelCount": 3,
+      "routeNames": [
+        "山手線",
+        "日比谷線",
+        "銀座線"
+      ],
+      "placeLabelCount": 0,
+      "facilityLabelCount": 0,
+      "screenshot": "docs/screenshots/map-hints-poc/ueno/hint2.jpg"
+    },
+    {
+      "stationId": "ueno",
+      "hint": 3,
+      "stage": "hint3",
+      "elapsedMs": 2220,
+      "zoom": 12.119155801646338,
+      "center": [
+        139.77654180000002,
+        35.71341280000001
+      ],
+      "roads": 2708,
+      "rails": 17,
+      "buildings": 0,
+      "facilityIconCount": 5,
+      "facilityIds": [
+        138585452,
+        203960902,
+        203960903,
+        441655802,
+        625528441
+      ],
+      "facilityKinds": [
+        "culture",
+        "education",
+        "religion"
+      ],
+      "routeColourFeatureCount": 8,
+      "routeColours": [
+        "#00BFFF",
+        "#B1CB39",
+        "#B5B5AC",
+        "#FF9500"
+      ],
+      "routeLabelCount": 3,
+      "routeNames": [
+        "山手線",
+        "日比谷線",
+        "銀座線"
+      ],
+      "placeLabelCount": 15,
+      "facilityLabelCount": 1,
+      "screenshot": "docs/screenshots/map-hints-poc/ueno/hint3.jpg"
+    },
+    {
+      "stationId": "kyoto",
+      "hint": 0,
+      "stage": "initial",
+      "elapsedMs": 2894,
+      "zoom": 15.454088005702879,
+      "center": [
+        135.75876600000004,
+        34.98534970000001
+      ],
+      "roads": 161,
+      "rails": 11,
+      "buildings": 28,
+      "facilityIconCount": 2,
+      "facilityIds": [
+        441352467,
+        5111884542
+      ],
+      "facilityKinds": [
+        "shopping"
+      ],
+      "routeColourFeatureCount": 0,
+      "routeColours": [],
+      "routeLabelCount": 0,
+      "routeNames": [],
+      "placeLabelCount": 0,
+      "facilityLabelCount": 0,
+      "screenshot": "docs/screenshots/map-hints-poc/kyoto/initial.jpg"
+    },
+    {
+      "stationId": "kyoto",
+      "hint": 1,
+      "stage": "hint1",
+      "elapsedMs": 2697,
+      "zoom": 14.454088005702879,
+      "center": [
+        135.75876600000004,
+        34.98534970000001
+      ],
+      "roads": 271,
+      "rails": 14,
+      "buildings": 35,
+      "facilityIconCount": 5,
+      "facilityIds": [
+        171692862,
+        441352467,
+        5111884542,
+        5936885886,
+        12462481217
+      ],
+      "facilityKinds": [
+        "culture",
+        "education",
+        "religion",
+        "shopping"
+      ],
+      "routeColourFeatureCount": 4,
+      "routeColours": [
+        "#3CB371",
+        "#BA7C31"
+      ],
+      "routeLabelCount": 0,
+      "routeNames": [],
+      "placeLabelCount": 0,
+      "facilityLabelCount": 0,
+      "screenshot": "docs/screenshots/map-hints-poc/kyoto/hint1.jpg"
+    },
+    {
+      "stationId": "kyoto",
+      "hint": 2,
+      "stage": "hint2",
+      "elapsedMs": 3528,
+      "zoom": 12.869125504981723,
+      "center": [
+        135.75876600000004,
+        34.98534970000001
+      ],
+      "roads": 592,
+      "rails": 10,
+      "buildings": 0,
+      "facilityIconCount": 5,
+      "facilityIds": [
+        171692862,
+        441352467,
+        5111884542,
+        5936885886,
+        12462481217
+      ],
+      "facilityKinds": [
+        "culture",
+        "education",
+        "religion",
+        "shopping"
+      ],
+      "routeColourFeatureCount": 4,
+      "routeColours": [
+        "#3CB371",
+        "#BA7C31"
+      ],
+      "routeLabelCount": 1,
+      "routeNames": [
+        "烏丸線"
+      ],
+      "placeLabelCount": 0,
+      "facilityLabelCount": 0,
+      "screenshot": "docs/screenshots/map-hints-poc/kyoto/hint2.jpg"
+    },
+    {
+      "stationId": "kyoto",
+      "hint": 3,
+      "stage": "hint3",
+      "elapsedMs": 1981,
+      "zoom": 12.132159910815517,
+      "center": [
+        135.75876600000004,
+        34.98534970000001
+      ],
+      "roads": 996,
+      "rails": 16,
+      "buildings": 0,
+      "facilityIconCount": 5,
+      "facilityIds": [
+        171692862,
+        441352467,
+        5111884542,
+        5936885886,
+        12462481217
+      ],
+      "facilityKinds": [
+        "culture",
+        "education",
+        "religion",
+        "shopping"
+      ],
+      "routeColourFeatureCount": 4,
+      "routeColours": [
+        "#3CB371",
+        "#BA7C31"
+      ],
+      "routeLabelCount": 2,
+      "routeNames": [
+        "奈良線",
+        "烏丸線"
+      ],
+      "placeLabelCount": 2,
+      "facilityLabelCount": 4,
+      "screenshot": "docs/screenshots/map-hints-poc/kyoto/hint3.jpg"
+    }
+  ],
+  "failures": [],
+  "completedStations": [
+    "tokyo",
+    "ueno",
+    "kyoto"
+  ],
+  "completed": true,
+  "manualReview": {
+    "gameDifficulty": "unconfirmed",
+    "iconReadability": "unconfirmed",
+    "routeColourReadability": "unconfirmed"
+  },
+  "screenshotCopyErrors": [],
+  "environment": "iPhone 17 Pro / iOS 26.5 simulator, debug",
+  "generatedAt": "2026-10-14T14:41:19.877884Z"
+}

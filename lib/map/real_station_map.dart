@@ -9,6 +9,8 @@ import '../game/game.dart';
 import 'map_availability.dart';
 import 'quiz_map_style.dart';
 import 'map_hint_data.dart';
+import 'map_hints_poc.dart';
+import 'facility_icons.dart';
 
 /// Loaded via HTTPS on each new map / retry; no bulk tile downloads.
 Future<Map<String, dynamic>> loadTileJson() async {
@@ -80,6 +82,8 @@ class RealStationMapState extends State<RealStationMap> {
   bool _nativeIdle = false;
   bool _applying = false;
   bool _checking = false;
+  int _idleEvent = 0;
+  MapHintsPoc? _pocHints;
   int _generation = 0;
   int _revision = 0;
   Timer? _timer;
@@ -138,6 +142,7 @@ class RealStationMapState extends State<RealStationMap> {
     _styleLoaded = false;
     _nativeIdle = false;
     _style = null;
+    _pocHints = null;
     _error = null;
     _waiting();
     if (mounted) setState(() {});
@@ -145,6 +150,7 @@ class RealStationMapState extends State<RealStationMap> {
       final tileJson = await widget.tileLoader();
       if (!mounted || generation != _generation) return;
       final hints = await loadMapHints(widget.station);
+      final poc = await loadMapHintsPoc(widget.station);
       final style = jsonEncode(
         quizMapStyle(
           widget.station,
@@ -152,10 +158,12 @@ class RealStationMapState extends State<RealStationMap> {
           hint: widget.hint,
           railways: hints.railways,
           hintLabels: hints.labels,
+          poc: poc,
         ),
       );
       if (!mounted || generation != _generation || _error != null) return;
       setState(() {
+        _pocHints = poc;
         _style = style;
       });
     } catch (_) {
@@ -218,7 +226,7 @@ class RealStationMapState extends State<RealStationMap> {
         revision = _revision;
         await controller.setLayerVisibility(
           'named-railway-colors',
-          widget.hint >= 2,
+          widget.hint >= (_pocHints != null ? 1 : 2),
         );
         await controller.setLayerVisibility('railway-labels', widget.hint >= 2);
         await controller.setLayerVisibility('hint-places', widget.hint >= 3);
@@ -248,8 +256,33 @@ class RealStationMapState extends State<RealStationMap> {
   }
 
   void _onIdle() {
+    _idleEvent++;
     _nativeIdle = true;
     _checkRenderedMap();
+  }
+
+  Future<void> _onStyleLoaded(int generation) async {
+    if (generation != _generation || !mounted || _error != null) return;
+    final controller = _controller;
+    if (controller == null) return;
+    try {
+      if (_pocHints != null) {
+        final images = await facilityIconImages();
+        for (final entry in images.entries) {
+          if (!mounted || generation != _generation || _error != null) return;
+          await controller.addImage(entry.key, entry.value);
+        }
+        if (!mounted || generation != _generation || _error != null) return;
+        await controller.setLayerVisibility('poc-facility-icons', true);
+      }
+      if (!mounted || generation != _generation || _error != null) return;
+      _styleLoaded = true;
+      await _applyCameraAndLabels();
+    } catch (_) {
+      if (mounted && generation == _generation) {
+        _fail('地図のアイコンを準備できませんでした。\n再試行してください。');
+      }
+    }
   }
 
   /// Style-loaded alone does not prove tiles are visible. Require native idle
@@ -268,6 +301,7 @@ class RealStationMapState extends State<RealStationMap> {
     _checking = true;
     final generation = _generation;
     final revision = _revision;
+    final idleEvent = _idleEvent;
     final controller = _controller!;
     try {
       final rect = Offset.zero & _size;
@@ -291,6 +325,27 @@ class RealStationMapState extends State<RealStationMap> {
               'hint-facilities',
             ], null)
           : null;
+      final icons = _pocHints != null
+          ? await controller.queryRenderedFeaturesInRect(rect, [
+              'poc-facility-icons',
+            ], null)
+          : null;
+      var expectsIcon = false;
+      if (_pocHints != null) {
+        final bounds = await controller.getVisibleRegion();
+        expectsIcon = (_pocHints!.facilities['features'] as List).any((f) {
+          final point = f['geometry']['coordinates'] as List;
+          return point[0] >= bounds.southwest.longitude &&
+              point[0] <= bounds.northeast.longitude &&
+              point[1] >= bounds.southwest.latitude &&
+              point[1] <= bounds.northeast.latitude;
+        });
+      }
+      final routeColors = _pocHints != null && widget.hint >= 1
+          ? await controller.queryRenderedFeaturesInRect(rect, [
+              'named-railway-colors',
+            ], null)
+          : null;
       if (!mounted ||
           generation != _generation ||
           revision != _revision ||
@@ -303,12 +358,16 @@ class RealStationMapState extends State<RealStationMap> {
         'buildings': buildings.length,
         'labels': labels?.length ?? 0,
         'routeLabels': routeLabels?.length ?? 0,
+        if (icons != null) 'facilityIcons': icons.length,
+        if (routeColors != null) 'routeColors': routeColors.length,
       };
       if (roads.isNotEmpty &&
           rails.isNotEmpty &&
           (widget.hint >= 2 || buildings.isNotEmpty) &&
           (labels == null || labels.isNotEmpty) &&
-          (routeLabels == null || routeLabels.isNotEmpty)) {
+          (routeLabels == null || routeLabels.isNotEmpty) &&
+          (!expectsIcon || icons!.isNotEmpty) &&
+          (routeColors == null || routeColors.isNotEmpty)) {
         _timer?.cancel();
         setState(() {
           _ready = true;
@@ -322,6 +381,18 @@ class RealStationMapState extends State<RealStationMap> {
       }
     } finally {
       _checking = false;
+      // A hint update or native idle can arrive while the previous native
+      // feature queries are in flight. Re-run the check that was coalesced by
+      // _checking instead of waiting until the 25-second deadline.
+      if (mounted &&
+          generation == _generation &&
+          !_ready &&
+          _error == null &&
+          _nativeIdle &&
+          !_applying &&
+          (revision != _revision || idleEvent != _idleEvent)) {
+        _checkRenderedMap();
+      }
     }
   }
 
@@ -374,11 +445,7 @@ class RealStationMapState extends State<RealStationMap> {
                     onMapCreated: (controller) {
                       if (generation == _generation) _controller = controller;
                     },
-                    onStyleLoadedCallback: () {
-                      if (generation != _generation || !mounted) return;
-                      _styleLoaded = true;
-                      _applyCameraAndLabels();
-                    },
+                    onStyleLoadedCallback: () => _onStyleLoaded(generation),
                     onMapIdle: () {
                       if (generation == _generation && mounted) _onIdle();
                     },

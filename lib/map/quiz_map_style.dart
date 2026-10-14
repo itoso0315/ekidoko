@@ -1,5 +1,6 @@
 import 'dart:math';
 import '../game/game.dart';
+import 'map_hints_poc.dart';
 
 const tileJsonUrl = String.fromEnvironment(
   'EKIDOKO_TILEJSON_URL',
@@ -72,7 +73,12 @@ Map<String, dynamic> quizMapStyle(
   int hint = 0,
   Map<String, dynamic>? railways,
   Map<String, dynamic>? hintLabels,
+  MapHintsPoc? poc,
 }) {
+  if (poc != null && poc.stationId != station.id) {
+    throw ArgumentError('PoC data belongs to a different station');
+  }
+  final routeData = poc?.routes ?? railways;
   final name = [
     'coalesce',
     ['get', 'name:ja'],
@@ -128,7 +134,8 @@ Map<String, dynamic> quizMapStyle(
         'data': {
           'type': 'FeatureCollection',
           'features': [
-            for (final feature in railways?['features'] as List? ?? <dynamic>[])
+            for (final feature
+                in routeData?['features'] as List? ?? <dynamic>[])
               if (isUsefulRailwayLabel(
                 station,
                 feature['properties']['name'] as String,
@@ -159,6 +166,8 @@ Map<String, dynamic> quizMapStyle(
         'maxzoom': tileJson['maxzoom'] ?? 14,
         'attribution': tileJson['attribution'],
       },
+      if (poc != null)
+        'poc-facilities': {'type': 'geojson', 'data': poc.facilities},
     },
     'layers': [
       {
@@ -316,12 +325,13 @@ Map<String, dynamic> quizMapStyle(
         'type': 'line',
         'source': 'named-railways',
         'layout': {
-          'visibility': hint >= 2 ? 'visible' : 'none',
+          'visibility': hint >= (poc != null ? 1 : 2) ? 'visible' : 'none',
           'line-cap': 'round',
           'line-join': 'round',
         },
         'paint': {
           'line-color': ['get', 'color'],
+          if (poc != null) 'line-offset': ['get', 'lineOffset'],
           'line-width': [
             'interpolate',
             ['linear'],
@@ -413,6 +423,28 @@ Map<String, dynamic> quizMapStyle(
           'text-halo-width': 2.5,
         },
       },
+      if (poc != null)
+        {
+          'id': 'poc-facility-icons',
+          'type': 'symbol',
+          'source': 'poc-facilities',
+          'layout': {
+            // Register the six vector-derived images before making this layer visible.
+            'visibility': 'none',
+            'icon-image': [
+              'concat',
+              'facility-',
+              ['get', 'kind'],
+            ],
+            'icon-size': 0.5,
+            'icon-padding': 3,
+            // At most five reviewed icons are present. Keep them visible as
+            // route/place labels appear, without suppressing those labels.
+            'icon-allow-overlap': true,
+            'icon-ignore-placement': true,
+            'symbol-sort-key': ['get', 'rank'],
+          },
+        },
     ],
   };
 }
