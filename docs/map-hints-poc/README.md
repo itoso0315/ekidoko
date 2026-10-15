@@ -101,6 +101,12 @@ iPhone 17 Pro / iOS 26.5 simulatorのnative MapLibreで3駅×4段階を検証し
 - `flutter build ios --simulator`：成功（`build/ios/iphonesimulator/Runner.app`）。
 - 専用native検証：3駅×4段階の12 / 12成功。
 
+## iPhone実機
+
+2026-10-15にiPhone「いほん」（iPhone 16 / iOS 26.6.2）で確認した。コミット`55dddf7`から既に作成・署名済みだったrelease版`Runner.app`を再利用し、再ビルドせずに`devicectl`でインストールした。bundle ID `jp.ekidoko.ekidoko`、アプリ版1.0.0（build 1）が端末のインストール済みアプリ一覧に登録され、起動コマンドが成功した後もRunnerプロセスが端末上で稼働していることを確認した。
+
+端末を人が操作する必要がある通常10問のプレイ、施設アイコンの有用性、路線カラーがヒントとして強すぎないかの評価は未確認。インストールと起動成功を、ゲーム性の手動確認済みとは扱わない。
+
 ## 出典・ライセンス
 
 施設、relation、way、座標のデータ部分は© OpenStreetMap contributors、ODbL 1.0。OpenMapTilesのレイヤースキーマはCC BY 4.0。アプリと全スクリーンショットにはOpenStreetMap / OpenMapTiles出典を維持した。
