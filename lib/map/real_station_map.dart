@@ -338,6 +338,11 @@ class RealStationMapState extends State<RealStationMap> {
               'poc-facility-icons',
             ], null)
           : null;
+      final highSpeedRails = _pocHints != null
+          ? await controller.queryRenderedFeaturesInRect(rect, [
+              'high-speed-rail',
+            ], null)
+          : null;
       var expectsIcon = false;
       if (_pocHints != null && widget.hint < 3) {
         final bounds = await controller.getVisibleRegion();
@@ -367,6 +372,7 @@ class RealStationMapState extends State<RealStationMap> {
         'labels': labels?.length ?? 0,
         'routeLabels': routeLabels?.length ?? 0,
         if (icons != null) 'facilityIcons': icons.length,
+        if (highSpeedRails != null) 'highSpeedRails': highSpeedRails.length,
         if (routeColors != null) 'routeColors': routeColors.length,
       };
       if (roads.isNotEmpty &&
@@ -375,6 +381,7 @@ class RealStationMapState extends State<RealStationMap> {
           (labels == null || labels.isNotEmpty) &&
           (routeLabels == null || routeLabels.isNotEmpty) &&
           (!expectsIcon || icons!.isNotEmpty) &&
+          (highSpeedRails == null || highSpeedRails.isNotEmpty) &&
           (routeColors == null || routeColors.isNotEmpty)) {
         _timer?.cancel();
         setState(() {
@@ -485,6 +492,16 @@ class RealStationMapState extends State<RealStationMap> {
                     _pocHints == null ? '● 施設' : '代表施設名',
                     color: const Color(0xffa45e29),
                     backgroundColor: const Color(0xfffff1e3),
+                  ),
+                ),
+              if (_pocHints != null && widget.hint == 0 && _ready)
+                const Positioned(
+                  bottom: 36,
+                  right: 12,
+                  child: MapChip(
+                    '白縁の紫線＝新幹線',
+                    color: Color(0xff6f6686),
+                    backgroundColor: Color(0xfff7f3fa),
                   ),
                 ),
               Positioned(

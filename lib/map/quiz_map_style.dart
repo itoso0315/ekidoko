@@ -8,6 +8,7 @@ const tileJsonUrl = String.fromEnvironment(
 );
 const glyphsUrl = 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf';
 const mapSpans = [500.0, 1000.0, 3000.0, 5000.0];
+const highSpeedRailMaxDistanceMeters = 500.0;
 
 /// Span of the shorter viewport side, using Web Mercator / 512px tiles.
 double quizZoom(double latitude, double shorterSide, int hint) =>
@@ -65,6 +66,35 @@ bool isUsefulRailwayLabel(Station station, String label) =>
       ...station.answerAliases,
     ].any((alias) => _labelKey(label).contains(_labelKey(alias)));
 
+const _reviewedHighSpeedRailwayNames = {
+  'tokyo': {'東海道新幹線', '東北新幹線'},
+  'ueno': {'東北新幹線'},
+  'kyoto': {'東海道新幹線'},
+};
+
+bool isHighSpeedRailwayLabel(Station station, String label) {
+  final key = _labelKey(label);
+  return (_reviewedHighSpeedRailwayNames[station.id] ?? const <String>{})
+          .map(_labelKey)
+          .contains(key) &&
+      isUsefulRailwayLabel(station, label);
+}
+
+bool _highSpeedRailwayPassesNearStation(Station station, dynamic feature) {
+  final points = feature['geometry']['coordinates'] as List;
+  for (final point in points) {
+    final dx =
+        ((point[0] as num) - station.longitude) *
+        cos(station.latitude * pi / 180) *
+        111320;
+    final dy = ((point[1] as num) - station.latitude) * 111320;
+    if (sqrt(dx * dx + dy * dy) <= highSpeedRailMaxDistanceMeters) {
+      return true;
+    }
+  }
+  return false;
+}
+
 /// Own style: no external default style, sprites, station/road/water labels.
 /// Only exact reviewed names from the actual vector data are permitted.
 Map<String, dynamic> quizMapStyle(
@@ -79,6 +109,21 @@ Map<String, dynamic> quizMapStyle(
     throw ArgumentError('PoC data belongs to a different station');
   }
   final routeData = poc?.routes ?? railways;
+  final highSpeedRailways = <Map<String, dynamic>>[
+    if (poc != null)
+      for (final feature in railways?['features'] as List? ?? <dynamic>[])
+        if (isHighSpeedRailwayLabel(
+              station,
+              feature['properties']['name'] as String,
+            ) &&
+            _highSpeedRailwayPassesNearStation(station, feature))
+          {
+            'type': 'Feature',
+            'geometry': feature['geometry'],
+            // The initial clue exposes only a rail category, never its name.
+            'properties': {'railType': 'highSpeed'},
+          },
+  ];
   final name = [
     'coalesce',
     ['get', 'name:ja'],
@@ -173,6 +218,11 @@ Map<String, dynamic> quizMapStyle(
       },
       if (poc != null)
         'poc-facilities': {'type': 'geojson', 'data': poc.facilities},
+      if (poc != null)
+        'high-speed-railways': {
+          'type': 'geojson',
+          'data': {'type': 'FeatureCollection', 'features': highSpeedRailways},
+        },
     },
     'layers': [
       {
@@ -325,6 +375,45 @@ Map<String, dynamic> quizMapStyle(
         ],
         'line-dasharray': [0.2, 3],
       }, filter: rail),
+      if (poc != null) ...[
+        {
+          'id': 'high-speed-rail-casing',
+          'type': 'line',
+          'source': 'high-speed-railways',
+          'layout': {'line-cap': 'round', 'line-join': 'round'},
+          'paint': {
+            'line-color': '#f7f3fa',
+            'line-width': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              12,
+              2.8,
+              18,
+              5.4,
+            ],
+          },
+        },
+        {
+          'id': 'high-speed-rail',
+          'type': 'line',
+          'source': 'high-speed-railways',
+          'layout': {'line-cap': 'round', 'line-join': 'round'},
+          'paint': {
+            // Neutral category colour, not an operator or service brand colour.
+            'line-color': '#6f6686',
+            'line-width': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              12,
+              1.6,
+              18,
+              3.4,
+            ],
+          },
+        },
+      ],
       {
         'id': 'named-railway-colors',
         'type': 'line',

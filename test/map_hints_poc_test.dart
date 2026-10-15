@@ -18,6 +18,20 @@ final hintData =
 final proof =
     jsonDecode(File('docs/map-hints-poc/sources.json').readAsStringSync())
         as Map;
+final highSpeedProof =
+    jsonDecode(
+          File(
+            'docs/map-hints-poc/high-speed-rail-audit.json',
+          ).readAsStringSync(),
+        )
+        as Map;
+final highSpeedOsmEvidence =
+    jsonDecode(
+          File(
+            'docs/map-hints-poc/high-speed-rail-osm-evidence.json',
+          ).readAsStringSync(),
+        )
+        as Map;
 const expectedServices = {
   'tokyo': {'yamanote', 'keihin', 'chuo_rapid', 'marunouchi'},
   'ueno': {'yamanote', 'keihin', 'ginza', 'hibiya'},
@@ -28,9 +42,167 @@ const expectedRepresentativeFacilities = {
   'ueno': {'国立西洋美術館', '国立科学博物館', '東京国立博物館'},
   'kyoto': {'京都タワー', '京都国立博物館', '京都鉄道博物館'},
 };
+const expectedHighSpeedNames = {
+  'tokyo': {'東海道新幹線', '東北新幹線'},
+  'ueno': {'東北新幹線'},
+  'kyoto': {'東海道新幹線'},
+};
+const expectedHighSpeedFeatureCounts = {'tokyo': 4, 'ueno': 2, 'kyoto': 2};
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
+  test('reviewed Shinkansen lines match independent OSM evidence', () {
+    expect(
+      highSpeedProof['provenance']['attribution'],
+      contains('OpenStreetMap'),
+    );
+    expect(highSpeedProof['provenance']['license'], 'ODbL-1.0');
+    expect(highSpeedProof['provenance']['selectionRule'], {
+      'stationSpecificReviewedNames': true,
+      'maxStationDistanceMeters': highSpeedRailMaxDistanceMeters.toInt(),
+    });
+    expect(highSpeedProof['provenance']['requiredWayTags'], {
+      'railway': 'rail',
+      'highspeed': 'yes',
+      'usage': 'main',
+      'service': null,
+      'gauge': '1435',
+    });
+    expect(
+      highSpeedOsmEvidence['provenance']['attribution'],
+      contains('OpenStreetMap'),
+    );
+    expect(highSpeedOsmEvidence['provenance']['license'], 'ODbL-1.0');
+    final evidenceWays = {
+      for (final way in highSpeedOsmEvidence['ways']) way['id']: way,
+    };
+    final evidenceRelations = {
+      for (final relation in highSpeedOsmEvidence['relations'])
+        relation['id']: relation,
+    };
+    final referencedWayIds = <dynamic>{};
+    final referencedRelationIds = <dynamic>{};
+    for (final station in stations.where(
+      (station) => mapHintsPocStationIds.contains(station.id),
+    )) {
+      final audit = highSpeedProof['stations'][station.id] as Map;
+      expect(audit['stationCenter'], [station.longitude, station.latitude]);
+      final sourceRecord = proof['stations'][station.id] as Map;
+      final rawSource = audit['rawSource'] as Map;
+      expect(
+        rawSource['name'],
+        sourceRecord['sourceFiles']['overpass']['name'],
+      );
+      expect(
+        rawSource['sha256'],
+        sourceRecord['sourceFiles']['overpass']['sha256'],
+      );
+      expect(
+        rawSource['queryName'],
+        sourceRecord['sourceFiles']['query']['name'],
+      );
+      expect(
+        rawSource['querySha256'],
+        sourceRecord['sourceFiles']['query']['sha256'],
+      );
+      expect(rawSource['osmBaseTimestamp'], sourceRecord['osmBaseTimestamp']);
+      final evidenceSource = (highSpeedOsmEvidence['sources'] as List)
+          .singleWhere((source) => source['name'] == rawSource['name']);
+      expect(evidenceSource['sha256'], rawSource['sha256']);
+      expect(evidenceSource['osmBaseTimestamp'], rawSource['osmBaseTimestamp']);
+
+      final railwayFeatures =
+          hintData[station.id]['railways']['features'] as List;
+      final auditedLines = audit['lines'] as List;
+      expect(
+        auditedLines,
+        hasLength(expectedHighSpeedFeatureCounts[station.id]!),
+      );
+      expect(
+        auditedLines.map((line) => line['lineId']).toSet(),
+        hasLength(auditedLines.length),
+      );
+      for (final line in auditedLines) {
+        final evidenceWayIds = (line['evidenceWayIds'] as List).toSet();
+        referencedWayIds.addAll(evidenceWayIds);
+        referencedRelationIds.add(line['supportingRelationId']);
+        final matches = railwayFeatures.where((feature) {
+          final properties = feature['properties'] as Map;
+          return properties['name'] == line['expectedName'] &&
+              (properties['osm_way_ids'] as List).toSet().containsAll(
+                evidenceWayIds,
+              );
+        }).toList();
+        expect(matches, hasLength(1), reason: line['lineId'] as String);
+        expect(
+          expectedHighSpeedNames[station.id],
+          contains(line['expectedName']),
+        );
+        final featureCoordinates =
+            matches.single['geometry']['coordinates'] as List;
+        final featureEdges = <String>{};
+        for (var i = 1; i < featureCoordinates.length; i++) {
+          featureEdges.add(
+            jsonEncode([featureCoordinates[i - 1], featureCoordinates[i]]),
+          );
+          featureEdges.add(
+            jsonEncode([featureCoordinates[i], featureCoordinates[i - 1]]),
+          );
+        }
+        final rawPoints = <dynamic>[];
+        for (final wayId in evidenceWayIds) {
+          final way = evidenceWays[wayId] as Map;
+          expect(way['type'], 'way');
+          final tags = way['tags'] as Map;
+          expect(tags['name'], line['expectedName']);
+          expect(tags['railway'], 'rail');
+          expect(tags['highspeed'], 'yes');
+          expect(tags['usage'], 'main');
+          expect(tags['gauge'], '1435');
+          expect(tags.containsKey('service'), false);
+          final geometry = way['geometry'] as List;
+          rawPoints.addAll(geometry);
+          for (var i = 1; i < geometry.length; i++) {
+            final edge = jsonEncode([
+              [geometry[i - 1]['lon'], geometry[i - 1]['lat']],
+              [geometry[i]['lon'], geometry[i]['lat']],
+            ]);
+            expect(featureEdges, contains(edge), reason: 'way $wayId');
+          }
+        }
+        final relation = evidenceRelations[line['supportingRelationId']] as Map;
+        expect(relation['type'], 'relation');
+        expect(relation['tags']['type'], 'route');
+        expect(relation['tags']['route'], 'train');
+        final memberWayIds = (relation['members'] as List)
+            .where((member) => member['type'] == 'way')
+            .map((member) => member['ref'])
+            .toSet();
+        expect(memberWayIds.containsAll(evidenceWayIds), true);
+
+        final distances = rawPoints.map((point) {
+          final dx =
+              ((point['lon'] as num) - station.longitude) *
+              cos(station.latitude * pi / 180) *
+              111320;
+          final dy = ((point['lat'] as num) - station.latitude) * 111320;
+          return sqrt(dx * dx + dy * dy);
+        });
+        final minimumDistance = distances.reduce(min);
+        expect(
+          minimumDistance,
+          closeTo(line['observedMinimumDistanceMeters'] as num, 0.11),
+        );
+        expect(
+          minimumDistance,
+          lessThanOrEqualTo(highSpeedRailMaxDistanceMeters),
+        );
+        expect(line['supportingRelationId'], isA<int>());
+      }
+    }
+    expect(evidenceWays.keys.toSet(), referencedWayIds);
+    expect(evidenceRelations.keys.toSet(), referencedRelationIds);
+  });
   test(
     'rollout is exactly Tokyo/Ueno/Kyoto; all 47 other stations keep the original hints',
     () async {
@@ -47,8 +219,13 @@ void main() {
             (style['sources'] as Map).containsKey('poc-facilities'),
             false,
           );
+          expect(
+            (style['sources'] as Map).containsKey('high-speed-railways'),
+            false,
+          );
           final layers = style['layers'] as List;
           expect(layers.any((l) => l['id'] == 'poc-facility-icons'), false);
+          expect(layers.any((l) => l['id'] == 'high-speed-rail'), false);
           expect(
             layers.singleWhere(
               (l) => l['id'] == 'named-railway-colors',
@@ -205,6 +382,7 @@ void main() {
             station,
             tiles,
             hint: hint,
+            railways: hintData[station.id]['railways'],
             hintLabels: hintData[station.id]['labels'],
             poc: poc,
           );
@@ -244,6 +422,81 @@ void main() {
             (style['sources'] as Map)['poc-facilities']['data']['features'],
             hasLength((poc.facilities['features'] as List).length),
           );
+          final highSpeedSource =
+              (style['sources']
+                      as Map)['high-speed-railways']['data']['features']
+                  as List;
+          final originalHighSpeed =
+              (hintData[station.id]['railways']['features'] as List)
+                  .where(
+                    (feature) => expectedHighSpeedNames[station.id]!.contains(
+                      feature['properties']['name'] as String,
+                    ),
+                  )
+                  .toList();
+          expect(
+            originalHighSpeed
+                .map((feature) => feature['properties']['name'])
+                .toSet(),
+            expectedHighSpeedNames[station.id],
+          );
+          for (final feature
+              in hintData[station.id]['railways']['features'] as List) {
+            final name = feature['properties']['name'] as String;
+            expect(
+              isHighSpeedRailwayLabel(station, name),
+              expectedHighSpeedNames[station.id]!.contains(name),
+            );
+          }
+          expect(
+            highSpeedSource,
+            hasLength(expectedHighSpeedFeatureCounts[station.id]!),
+          );
+          expect(highSpeedSource, hasLength(originalHighSpeed.length));
+          for (final feature in highSpeedSource) {
+            expect(feature['properties'], {'railType': 'highSpeed'});
+            expect(
+              originalHighSpeed.map((item) => item['geometry']),
+              contains(feature['geometry']),
+            );
+          }
+          final casingIndex = layers.indexWhere(
+            (layer) => layer['id'] == 'high-speed-rail-casing',
+          );
+          final highSpeedIndex = layers.indexWhere(
+            (layer) => layer['id'] == 'high-speed-rail',
+          );
+          final routeColourIndex = layers.indexWhere(
+            (layer) => layer['id'] == 'named-railway-colors',
+          );
+          expect(
+            casingIndex,
+            greaterThan(layers.indexWhere((l) => l['id'] == 'rail-sleepers')),
+          );
+          expect(highSpeedIndex, casingIndex + 1);
+          expect(routeColourIndex, greaterThan(highSpeedIndex));
+          final casing = layers[casingIndex];
+          final highSpeed = layers[highSpeedIndex];
+          expect(casing['paint']['line-color'], '#f7f3fa');
+          expect(casing['paint']['line-width'], [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            12,
+            2.8,
+            18,
+            5.4,
+          ]);
+          expect(highSpeed['paint']['line-color'], '#6f6686');
+          expect(highSpeed['paint']['line-width'], [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            12,
+            1.6,
+            18,
+            3.4,
+          ]);
           expect(
             layers.singleWhere(
               (l) => l['id'] == 'named-railway-colors',

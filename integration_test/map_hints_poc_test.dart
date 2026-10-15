@@ -26,6 +26,10 @@ void main() {
       'gameDifficulty': 'unconfirmed',
       'iconReadability': 'unconfirmed',
       'routeColourReadability': 'unconfirmed',
+      'railTypeDistinction': 'unconfirmed',
+      'highSpeedAlignment': 'unconfirmed',
+      'uenoUndergroundRepresentation':
+          'unconfirmed: category colour does not encode underground status',
     },
     'screenshotRoot': screenshotRoot,
   };
@@ -130,6 +134,16 @@ void main() {
           final rect = Offset.zero & size;
           final roads = await features(controller, rect, 'roads');
           final rails = await features(controller, rect, 'railways');
+          final highSpeedCasing = await features(
+            controller,
+            rect,
+            'high-speed-rail-casing',
+          );
+          final highSpeedRails = await features(
+            controller,
+            rect,
+            'high-speed-rail',
+          );
           final buildings = await features(controller, rect, 'buildings');
           final routeLines = await features(
             controller,
@@ -179,6 +193,16 @@ void main() {
 
           expect(roads, isNotEmpty);
           expect(rails, isNotEmpty);
+          expect(highSpeedCasing, isNotEmpty);
+          expect(
+            highSpeedRails,
+            isNotEmpty,
+            reason: '$stationId must show a reviewed Shinkansen track',
+          );
+          for (final feature in highSpeedRails) {
+            final item = properties(feature);
+            expect(item, {'railType': 'highSpeed'});
+          }
           if (currentHint < 2) expect(buildings, isNotEmpty);
           if (currentHint < 3) {
             expect(icons, isNotEmpty);
@@ -258,6 +282,10 @@ void main() {
             find.text('© OpenMapTiles · © OpenStreetMap contributors'),
             findsOneWidget,
           );
+          expect(
+            find.text('白縁の紫線＝新幹線'),
+            currentHint == 0 ? findsOneWidget : findsNothing,
+          );
           expect(find.text('${station.name}駅'), findsNothing);
 
           if (currentHint == 0) {
@@ -287,7 +315,17 @@ void main() {
             'zoom': camera.zoom,
             'center': [camera.target.longitude, camera.target.latitude],
             'roads': roads.length,
-            'rails': rails.length,
+            'baseRailFeatureCount': rails.length,
+            'highSpeedRailFeatureCount': highSpeedRails.length,
+            'highSpeedRailCasingFeatureCount': highSpeedCasing.length,
+            'highSpeedRailTypes':
+                highSpeedRails
+                    .map(properties)
+                    .map((item) => item['railType'])
+                    .whereType<String>()
+                    .toSet()
+                    .toList()
+                  ..sort(),
             'buildings': buildings.length,
             'facilityIconCount': icons.length,
             'facilityIds': iconIds.toList()..sort(),

@@ -5,14 +5,19 @@
       "stationId": "tokyo",
       "hint": 0,
       "stage": "initial",
-      "elapsedMs": 3091,
+      "elapsedMs": 3084,
       "zoom": 15.441665694017601,
       "center": [
         139.76670600000006,
         35.681254599999974
       ],
       "roads": 273,
-      "rails": 12,
+      "baseRailFeatureCount": 12,
+      "highSpeedRailFeatureCount": 8,
+      "highSpeedRailCasingFeatureCount": 8,
+      "highSpeedRailTypes": [
+        "highSpeed"
+      ],
       "buildings": 51,
       "facilityIconCount": 3,
       "facilityIds": [
@@ -36,14 +41,19 @@
       "stationId": "tokyo",
       "hint": 1,
       "stage": "hint1",
-      "elapsedMs": 1795,
+      "elapsedMs": 1802,
       "zoom": 14.441665694017601,
       "center": [
         139.76670599999994,
         35.681254599999974
       ],
       "roads": 558,
-      "rails": 27,
+      "baseRailFeatureCount": 27,
+      "highSpeedRailFeatureCount": 8,
+      "highSpeedRailCasingFeatureCount": 8,
+      "highSpeedRailTypes": [
+        "highSpeed"
+      ],
       "buildings": 130,
       "facilityIconCount": 4,
       "facilityIds": [
@@ -74,14 +84,19 @@
       "stationId": "tokyo",
       "hint": 2,
       "stage": "hint2",
-      "elapsedMs": 2482,
+      "elapsedMs": 2528,
       "zoom": 12.856703193296447,
       "center": [
         139.76670599999994,
         35.681254599999974
       ],
       "roads": 1600,
-      "rails": 12,
+      "baseRailFeatureCount": 12,
+      "highSpeedRailFeatureCount": 6,
+      "highSpeedRailCasingFeatureCount": 6,
+      "highSpeedRailTypes": [
+        "highSpeed"
+      ],
       "buildings": 0,
       "facilityIconCount": 4,
       "facilityIds": [
@@ -116,14 +131,19 @@
       "stationId": "tokyo",
       "hint": 3,
       "stage": "hint3",
-      "elapsedMs": 2521,
+      "elapsedMs": 2723,
       "zoom": 12.11973759913024,
       "center": [
         139.766706,
         35.681254599999974
       ],
       "roads": 3866,
-      "rails": 19,
+      "baseRailFeatureCount": 19,
+      "highSpeedRailFeatureCount": 8,
+      "highSpeedRailCasingFeatureCount": 8,
+      "highSpeedRailTypes": [
+        "highSpeed"
+      ],
       "buildings": 0,
       "facilityIconCount": 0,
       "facilityIds": [],
@@ -148,14 +168,19 @@
       "stationId": "ueno",
       "hint": 0,
       "stage": "initial",
-      "elapsedMs": 3116,
+      "elapsedMs": 2903,
       "zoom": 15.4410838965337,
       "center": [
         139.77654180000002,
         35.71341280000001
       ],
       "roads": 131,
-      "rails": 20,
+      "baseRailFeatureCount": 20,
+      "highSpeedRailFeatureCount": 4,
+      "highSpeedRailCasingFeatureCount": 4,
+      "highSpeedRailTypes": [
+        "highSpeed"
+      ],
       "buildings": 44,
       "facilityIconCount": 3,
       "facilityIds": [
@@ -179,14 +204,19 @@
       "stationId": "ueno",
       "hint": 1,
       "stage": "hint1",
-      "elapsedMs": 2723,
+      "elapsedMs": 2553,
       "zoom": 14.4410838965337,
       "center": [
         139.77654180000007,
         35.71341280000001
       ],
       "roads": 293,
-      "rails": 34,
+      "baseRailFeatureCount": 34,
+      "highSpeedRailFeatureCount": 4,
+      "highSpeedRailCasingFeatureCount": 4,
+      "highSpeedRailTypes": [
+        "highSpeed"
+      ],
       "buildings": 88,
       "facilityIconCount": 5,
       "facilityIds": [
@@ -218,14 +248,19 @@
       "stationId": "ueno",
       "hint": 2,
       "stage": "hint2",
-      "elapsedMs": 2140,
+      "elapsedMs": 2125,
       "zoom": 12.856121395812544,
       "center": [
         139.77654180000007,
         35.71341280000001
       ],
       "roads": 970,
-      "rails": 14,
+      "baseRailFeatureCount": 14,
+      "highSpeedRailFeatureCount": 2,
+      "highSpeedRailCasingFeatureCount": 2,
+      "highSpeedRailTypes": [
+        "highSpeed"
+      ],
       "buildings": 0,
       "facilityIconCount": 5,
       "facilityIds": [
@@ -261,14 +296,19 @@
       "stationId": "ueno",
       "hint": 3,
       "stage": "hint3",
-      "elapsedMs": 2018,
+      "elapsedMs": 2312,
       "zoom": 12.119155801646338,
       "center": [
         139.77654180000002,
         35.71341280000001
       ],
       "roads": 2708,
-      "rails": 17,
+      "baseRailFeatureCount": 17,
+      "highSpeedRailFeatureCount": 2,
+      "highSpeedRailCasingFeatureCount": 2,
+      "highSpeedRailTypes": [
+        "highSpeed"
+      ],
       "buildings": 0,
       "facilityIconCount": 0,
       "facilityIds": [],
@@ -294,14 +334,19 @@
       "stationId": "kyoto",
       "hint": 0,
       "stage": "initial",
-      "elapsedMs": 2894,
+      "elapsedMs": 2983,
       "zoom": 15.454088005702879,
       "center": [
         135.75876600000004,
         34.98534970000001
       ],
       "roads": 161,
-      "rails": 11,
+      "baseRailFeatureCount": 11,
+      "highSpeedRailFeatureCount": 6,
+      "highSpeedRailCasingFeatureCount": 6,
+      "highSpeedRailTypes": [
+        "highSpeed"
+      ],
       "buildings": 28,
       "facilityIconCount": 2,
       "facilityIds": [
@@ -323,14 +368,19 @@
       "stationId": "kyoto",
       "hint": 1,
       "stage": "hint1",
-      "elapsedMs": 1803,
+      "elapsedMs": 1744,
       "zoom": 14.454088005702879,
       "center": [
         135.75876600000004,
         34.98534970000001
       ],
       "roads": 271,
-      "rails": 14,
+      "baseRailFeatureCount": 14,
+      "highSpeedRailFeatureCount": 2,
+      "highSpeedRailCasingFeatureCount": 2,
+      "highSpeedRailTypes": [
+        "highSpeed"
+      ],
       "buildings": 35,
       "facilityIconCount": 5,
       "facilityIds": [
@@ -361,14 +411,19 @@
       "stationId": "kyoto",
       "hint": 2,
       "stage": "hint2",
-      "elapsedMs": 2240,
+      "elapsedMs": 2250,
       "zoom": 12.869125504981723,
       "center": [
         135.75876600000004,
         34.98534970000001
       ],
       "roads": 592,
-      "rails": 10,
+      "baseRailFeatureCount": 10,
+      "highSpeedRailFeatureCount": 2,
+      "highSpeedRailCasingFeatureCount": 2,
+      "highSpeedRailTypes": [
+        "highSpeed"
+      ],
       "buildings": 0,
       "facilityIconCount": 5,
       "facilityIds": [
@@ -401,14 +456,19 @@
       "stationId": "kyoto",
       "hint": 3,
       "stage": "hint3",
-      "elapsedMs": 1869,
+      "elapsedMs": 1788,
       "zoom": 12.132159910815517,
       "center": [
         135.75876600000004,
         34.98534970000001
       ],
       "roads": 996,
-      "rails": 16,
+      "baseRailFeatureCount": 16,
+      "highSpeedRailFeatureCount": 2,
+      "highSpeedRailCasingFeatureCount": 2,
+      "highSpeedRailTypes": [
+        "highSpeed"
+      ],
       "buildings": 0,
       "facilityIconCount": 0,
       "facilityIds": [],
@@ -438,9 +498,12 @@
   "manualReview": {
     "gameDifficulty": "unconfirmed",
     "iconReadability": "unconfirmed",
-    "routeColourReadability": "unconfirmed"
+    "routeColourReadability": "unconfirmed",
+    "railTypeDistinction": "confirmed in all 3 initial screenshots",
+    "highSpeedAlignment": "confirmed in all 12 screenshots",
+    "uenoUndergroundRepresentation": "unconfirmed: category colour does not encode underground status"
   },
   "screenshotCopyErrors": [],
   "environment": "iPhone 17 Pro / iOS 26.5 simulator, debug",
-  "generatedAt": "2026-10-15T12:54:48.910797Z"
+  "generatedAt": "2026-10-15T13:13:40.987995Z"
 }

@@ -1,0 +1,114 @@
+{
+  "provenance": {
+    "reviewedAt": "2026-10-15",
+    "purpose": "Independent evidence for the three-station Shinkansen category overlay",
+    "source": "https://overpass-api.de/api/interpreter",
+    "attribution": "© OpenStreetMap contributors",
+    "license": "ODbL-1.0",
+    "selectionRule": {
+      "stationSpecificReviewedNames": true,
+      "maxStationDistanceMeters": 500
+    },
+    "requiredWayTags": {
+      "railway": "rail",
+      "highspeed": "yes",
+      "usage": "main",
+      "service": null,
+      "gauge": "1435"
+    }
+  },
+  "stations": {
+    "tokyo": {
+      "stationCenter": [139.766706, 35.6812546],
+      "rawSource": {
+        "name": "tokyo.json",
+        "sha256": "29b42685ebee69de29db57e5fe1b63f9e50446960c8f7f5daeac93e7ce86aa24",
+        "queryName": "tokyo.query",
+        "querySha256": "4ae8bca6312e8509f4698984faa94f91b00b35ebb083312bca17af2b29ac3b8b",
+        "osmBaseTimestamp": "2026-10-14T13:58:18Z"
+      },
+      "lines": [
+        {
+          "lineId": "tokyo-tokaido-1",
+          "expectedName": "東海道新幹線",
+          "evidenceWayIds": [142299435, 1174526294],
+          "supportingRelationId": 9802524,
+          "observedMinimumDistanceMeters": 112.8
+        },
+        {
+          "lineId": "tokyo-tokaido-2",
+          "expectedName": "東海道新幹線",
+          "evidenceWayIds": [142299438, 1174526293],
+          "supportingRelationId": 9802525,
+          "observedMinimumDistanceMeters": 127.2
+        },
+        {
+          "lineId": "tokyo-tohoku-1",
+          "expectedName": "東北新幹線",
+          "evidenceWayIds": [34282734, 670515796],
+          "supportingRelationId": 9326156,
+          "observedMinimumDistanceMeters": 70.7
+        },
+        {
+          "lineId": "tokyo-tohoku-2",
+          "expectedName": "東北新幹線",
+          "evidenceWayIds": [362230918, 670515794],
+          "supportingRelationId": 9349293,
+          "observedMinimumDistanceMeters": 88.5
+        }
+      ]
+    },
+    "ueno": {
+      "stationCenter": [139.7765418, 35.7134128],
+      "rawSource": {
+        "name": "ueno.json",
+        "sha256": "f5be183ad95141ad3c0f185021ee45730c8fac274871dfad7e5fe88ff45ef172",
+        "queryName": "ueno.query",
+        "querySha256": "f28e6893e3992359333b541ab4e072974a1b11d8adea3f34e0dde364bd21eddf",
+        "osmBaseTimestamp": "2026-10-14T13:58:18Z"
+      },
+      "lines": [
+        {
+          "lineId": "ueno-tohoku-1",
+          "expectedName": "東北新幹線",
+          "evidenceWayIds": [24412330, 144140120, 206530780, 672492348],
+          "supportingRelationId": 9326156,
+          "observedMinimumDistanceMeters": 77.3
+        },
+        {
+          "lineId": "ueno-tohoku-2",
+          "expectedName": "東北新幹線",
+          "evidenceWayIds": [357704783, 357704793, 357704800, 672492347],
+          "supportingRelationId": 9349293,
+          "observedMinimumDistanceMeters": 84.2
+        }
+      ]
+    },
+    "kyoto": {
+      "stationCenter": [135.758766, 34.9853497],
+      "rawSource": {
+        "name": "kyoto.json",
+        "sha256": "b0adc4fd45d59f18c4f90fa5d50fa5a9afe93e612309cc358b6ff45213960aec",
+        "queryName": "kyoto.query",
+        "querySha256": "4e33398b1c4d294da84cdeca4146549e9c28da5a0949d6a461b9297eaf661ca5",
+        "osmBaseTimestamp": "2026-10-14T13:59:21Z"
+      },
+      "lines": [
+        {
+          "lineId": "kyoto-tokaido-1",
+          "expectedName": "東海道新幹線",
+          "evidenceWayIds": [41750762, 41753768, 361793364],
+          "supportingRelationId": 9802525,
+          "observedMinimumDistanceMeters": 89.1
+        },
+        {
+          "lineId": "kyoto-tokaido-2",
+          "expectedName": "東海道新幹線",
+          "evidenceWayIds": [357704833, 357704835, 361793365],
+          "supportingRelationId": 9802524,
+          "observedMinimumDistanceMeters": 85.3
+        }
+      ]
+    }
+  }
+}
