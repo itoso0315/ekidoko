@@ -4,6 +4,23 @@ import '../data/station_catalog.dart';
 
 // Deliberate rollout boundary. Facility and route additions are data changes.
 const mapHintsPocStationIds = {'tokyo', 'ueno', 'kyoto'};
+const mapHintsPocRepresentativeFacilityIds = <String, Set<String>>{
+  'tokyo': {
+    'way/43934324', // 東京国立近代美術館
+    'node/4272532291', // インターメディアテク
+    'node/1420789601', // 国立映画アーカイブ
+  },
+  'ueno': {
+    'way/203960903', // 国立西洋美術館
+    'way/203960902', // 国立科学博物館
+    'way/33439660', // 東京国立博物館
+  },
+  'kyoto': {
+    'relation/5333011', // 京都タワー
+    'way/31843043', // 京都国立博物館
+    'way/290375264', // 京都鉄道博物館
+  },
+};
 const facilityKinds = {
   'education',
   'hospital',

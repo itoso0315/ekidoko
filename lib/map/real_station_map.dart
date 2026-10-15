@@ -230,10 +230,19 @@ class RealStationMapState extends State<RealStationMap> {
         );
         await controller.setLayerVisibility('railway-labels', widget.hint >= 2);
         await controller.setLayerVisibility('hint-places', widget.hint >= 3);
-        await controller.setLayerVisibility(
-          'hint-facility-markers',
-          widget.hint >= 3,
-        );
+        if (_pocHints == null) {
+          await controller.setLayerVisibility(
+            'hint-facility-markers',
+            widget.hint >= 3,
+          );
+        } else {
+          // At 5 km, unnamed category icons become ambiguous. Leave only the
+          // curated, named representative facilities shown by the text layer.
+          await controller.setLayerVisibility(
+            'poc-facility-icons',
+            widget.hint < 3,
+          );
+        }
         await controller.setLayerVisibility(
           'hint-facilities',
           widget.hint >= 3,
@@ -273,7 +282,6 @@ class RealStationMapState extends State<RealStationMap> {
           await controller.addImage(entry.key, entry.value);
         }
         if (!mounted || generation != _generation || _error != null) return;
-        await controller.setLayerVisibility('poc-facility-icons', true);
       }
       if (!mounted || generation != _generation || _error != null) return;
       _styleLoaded = true;
@@ -325,13 +333,13 @@ class RealStationMapState extends State<RealStationMap> {
               'hint-facilities',
             ], null)
           : null;
-      final icons = _pocHints != null
+      final icons = _pocHints != null && widget.hint < 3
           ? await controller.queryRenderedFeaturesInRect(rect, [
               'poc-facility-icons',
             ], null)
           : null;
       var expectsIcon = false;
-      if (_pocHints != null) {
+      if (_pocHints != null && widget.hint < 3) {
         final bounds = await controller.getVisibleRegion();
         expectsIcon = (_pocHints!.facilities['features'] as List).any((f) {
           final point = f['geometry']['coordinates'] as List;
@@ -470,13 +478,13 @@ class RealStationMapState extends State<RealStationMap> {
               const Positioned(top: 12, left: 12, child: MapChip('実地図')),
               const Positioned(top: 12, right: 12, child: MapChip('↑ N')),
               if (widget.hint >= 3)
-                const Positioned(
+                Positioned(
                   bottom: 36,
                   right: 12,
                   child: MapChip(
-                    '● 施設',
-                    color: Color(0xffa45e29),
-                    backgroundColor: Color(0xfffff1e3),
+                    _pocHints == null ? '● 施設' : '代表施設名',
+                    color: const Color(0xffa45e29),
+                    backgroundColor: const Color(0xfffff1e3),
                   ),
                 ),
               Positioned(

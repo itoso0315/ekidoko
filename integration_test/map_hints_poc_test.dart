@@ -180,7 +180,15 @@ void main() {
           expect(roads, isNotEmpty);
           expect(rails, isNotEmpty);
           if (currentHint < 2) expect(buildings, isNotEmpty);
-          expect(icons, isNotEmpty);
+          if (currentHint < 3) {
+            expect(icons, isNotEmpty);
+          } else {
+            expect(
+              icons,
+              isEmpty,
+              reason: 'Unnamed facility icons must be hidden at 5 km',
+            );
+          }
           expect(iconIds.length, lessThanOrEqualTo(5));
           expect(iconKinds.difference(facilityKinds), isEmpty);
           for (final item in iconProperties) {
@@ -191,12 +199,14 @@ void main() {
               isEmpty,
             );
           }
-          initialIconIds ??= iconIds;
-          expect(
-            iconIds.containsAll(initialIconIds),
-            true,
-            reason: 'Initial facility icons must persist through every hint',
-          );
+          if (currentHint < 3) {
+            initialIconIds ??= iconIds;
+            expect(
+              iconIds.containsAll(initialIconIds),
+              true,
+              reason: 'Close-range facility icons must persist through H2',
+            );
+          }
 
           if (currentHint == 0) {
             expect(routeLines, isEmpty);
@@ -219,6 +229,7 @@ void main() {
           } else {
             expect(places, isNotEmpty);
             expect(namedFacilities, isNotEmpty);
+            expect(namedFacilities.length, lessThanOrEqualTo(3));
             for (final feature in [...places, ...namedFacilities]) {
               final item = properties(feature);
               final name = item['name:ja'] ?? item['name'];

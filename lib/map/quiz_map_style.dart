@@ -85,6 +85,22 @@ Map<String, dynamic> quizMapStyle(
     ['get', 'name'],
     '',
   ];
+  final safeHints = <dynamic>[
+    for (final feature in hintLabels?['features'] as List? ?? <dynamic>[])
+      if (isSafeHintLabel(station, feature['properties']['name'] as String))
+        feature,
+  ];
+  if (poc != null) {
+    final representativeIds =
+        mapHintsPocRepresentativeFacilityIds[station.id] ?? const <String>{};
+    safeHints.removeWhere((feature) {
+      final properties = feature['properties'];
+      return properties['kind'] == 'facility' &&
+          !representativeIds.contains(
+            '${properties['osm_type']}/${properties['osm_id']}',
+          );
+    });
+  }
   Map<String, dynamic> layer(
     String id,
     String type,
@@ -146,18 +162,7 @@ Map<String, dynamic> quizMapStyle(
       },
       'reviewed-hints': {
         'type': 'geojson',
-        'data': {
-          'type': 'FeatureCollection',
-          'features': [
-            for (final feature
-                in hintLabels?['features'] as List? ?? <dynamic>[])
-              if (isSafeHintLabel(
-                station,
-                feature['properties']['name'] as String,
-              ))
-                feature,
-          ],
-        },
+        'data': {'type': 'FeatureCollection', 'features': safeHints},
       },
       'openmaptiles': {
         'type': 'vector',
@@ -343,23 +348,24 @@ Map<String, dynamic> quizMapStyle(
           ],
         },
       },
-      {
-        'id': 'hint-facility-markers',
-        'type': 'circle',
-        'source': 'reviewed-hints',
-        'filter': [
-          '==',
-          ['get', 'kind'],
-          'facility',
-        ],
-        'layout': {'visibility': hint >= 3 ? 'visible' : 'none'},
-        'paint': {
-          'circle-radius': 3.5,
-          'circle-color': '#c47a3f',
-          'circle-stroke-color': '#fff7ed',
-          'circle-stroke-width': 2.5,
+      if (poc == null)
+        {
+          'id': 'hint-facility-markers',
+          'type': 'circle',
+          'source': 'reviewed-hints',
+          'filter': [
+            '==',
+            ['get', 'kind'],
+            'facility',
+          ],
+          'layout': {'visibility': hint >= 3 ? 'visible' : 'none'},
+          'paint': {
+            'circle-radius': 3.5,
+            'circle-color': '#c47a3f',
+            'circle-stroke-color': '#fff7ed',
+            'circle-stroke-width': 2.5,
+          },
         },
-      },
       for (final entry in {
         'hint-places': 'place',
         'hint-facilities': 'facility',
@@ -436,10 +442,22 @@ Map<String, dynamic> quizMapStyle(
               'facility-',
               ['get', 'kind'],
             ],
-            'icon-size': 0.5,
+            // iOS decodes the 48px sprite at the device scale (16pt on 3x).
+            // Keep the close-range clue near 24pt, then reduce overlap as the
+            // camera reveals more route labels through hint 2.
+            'icon-size': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              12,
+              1.0,
+              15.5,
+              1.5,
+            ],
             'icon-padding': 3,
-            // At most five reviewed icons are present. Keep them visible as
-            // route/place labels appear, without suppressing those labels.
+            // At most five reviewed icons are present. Keep them visible
+            // through hint 2 without suppressing route labels. At hint 3 the
+            // widget hides this anonymous layer in favour of named landmarks.
             'icon-allow-overlap': true,
             'icon-ignore-placement': true,
             'symbol-sort-key': ['get', 'rank'],

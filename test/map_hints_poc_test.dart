@@ -12,6 +12,9 @@ const tiles = {
 };
 final source = File('assets/maps/map_hints_poc.json').readAsStringSync();
 final data = jsonDecode(source) as Map<String, dynamic>;
+final hintData =
+    jsonDecode(File('assets/maps/station_hints.json').readAsStringSync())
+        as Map;
 final proof =
     jsonDecode(File('docs/map-hints-poc/sources.json').readAsStringSync())
         as Map;
@@ -19,6 +22,11 @@ const expectedServices = {
   'tokyo': {'yamanote', 'keihin', 'chuo_rapid', 'marunouchi'},
   'ueno': {'yamanote', 'keihin', 'ginza', 'hibiya'},
   'kyoto': {'nara', 'karasuma'},
+};
+const expectedRepresentativeFacilities = {
+  'tokyo': {'東京国立近代美術館', 'インターメディアテク', '国立映画アーカイブ'},
+  'ueno': {'国立西洋美術館', '国立科学博物館', '東京国立博物館'},
+  'kyoto': {'京都タワー', '京都国立博物館', '京都鉄道博物館'},
 };
 
 void main() {
@@ -193,14 +201,45 @@ void main() {
       )) {
         final poc = MapHintsPoc.parse(source, station);
         for (var hint = 0; hint < 4; hint++) {
-          final style = quizMapStyle(station, tiles, hint: hint, poc: poc);
+          final style = quizMapStyle(
+            station,
+            tiles,
+            hint: hint,
+            hintLabels: hintData[station.id]['labels'],
+            poc: poc,
+          );
           final layers = style['layers'] as List;
           final icon = layers.singleWhere(
             (l) => l['id'] == 'poc-facility-icons',
           );
           expect(icon['layout'].containsKey('text-field'), false);
+          expect(icon['layout']['icon-size'], [
+            'interpolate',
+            ['linear'],
+            ['zoom'],
+            12,
+            1.0,
+            15.5,
+            1.5,
+          ]);
           expect(icon['layout']['icon-allow-overlap'], true);
           expect(icon['layout']['icon-ignore-placement'], true);
+          expect(
+            layers.any((layer) => layer['id'] == 'hint-facility-markers'),
+            false,
+          );
+          final representativeNames =
+              ((style['sources'] as Map)['reviewed-hints']['data']['features']
+                      as List)
+                  .where(
+                    (feature) => feature['properties']['kind'] == 'facility',
+                  )
+                  .map((feature) => feature['properties']['name'] as String)
+                  .toSet();
+          expect(
+            representativeNames,
+            expectedRepresentativeFacilities[station.id],
+          );
           expect(
             (style['sources'] as Map)['poc-facilities']['data']['features'],
             hasLength((poc.facilities['features'] as List).length),

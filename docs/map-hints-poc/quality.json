@@ -5,7 +5,7 @@
       "stationId": "tokyo",
       "hint": 0,
       "stage": "initial",
-      "elapsedMs": 4910,
+      "elapsedMs": 3091,
       "zoom": 15.441665694017601,
       "center": [
         139.76670600000006,
@@ -36,7 +36,7 @@
       "stationId": "tokyo",
       "hint": 1,
       "stage": "hint1",
-      "elapsedMs": 1687,
+      "elapsedMs": 1795,
       "zoom": 14.441665694017601,
       "center": [
         139.76670599999994,
@@ -74,7 +74,7 @@
       "stationId": "tokyo",
       "hint": 2,
       "stage": "hint2",
-      "elapsedMs": 2312,
+      "elapsedMs": 2482,
       "zoom": 12.856703193296447,
       "center": [
         139.76670599999994,
@@ -116,7 +116,7 @@
       "stationId": "tokyo",
       "hint": 3,
       "stage": "hint3",
-      "elapsedMs": 2462,
+      "elapsedMs": 2521,
       "zoom": 12.11973759913024,
       "center": [
         139.766706,
@@ -125,18 +125,9 @@
       "roads": 3866,
       "rails": 19,
       "buildings": 0,
-      "facilityIconCount": 4,
-      "facilityIds": [
-        2214684270,
-        3164340661,
-        4646514991,
-        6604348338
-      ],
-      "facilityKinds": [
-        "culture",
-        "education",
-        "shopping"
-      ],
+      "facilityIconCount": 0,
+      "facilityIds": [],
+      "facilityKinds": [],
       "routeColourFeatureCount": 20,
       "routeColours": [
         "#00BFFF",
@@ -149,7 +140,7 @@
         "中央線快速",
         "山手線"
       ],
-      "placeLabelCount": 9,
+      "placeLabelCount": 10,
       "facilityLabelCount": 2,
       "screenshot": "docs/screenshots/map-hints-poc/tokyo/hint3.jpg"
     },
@@ -157,7 +148,7 @@
       "stationId": "ueno",
       "hint": 0,
       "stage": "initial",
-      "elapsedMs": 2856,
+      "elapsedMs": 3116,
       "zoom": 15.4410838965337,
       "center": [
         139.77654180000002,
@@ -188,7 +179,7 @@
       "stationId": "ueno",
       "hint": 1,
       "stage": "hint1",
-      "elapsedMs": 2426,
+      "elapsedMs": 2723,
       "zoom": 14.4410838965337,
       "center": [
         139.77654180000007,
@@ -227,7 +218,7 @@
       "stationId": "ueno",
       "hint": 2,
       "stage": "hint2",
-      "elapsedMs": 2013,
+      "elapsedMs": 2140,
       "zoom": 12.856121395812544,
       "center": [
         139.77654180000007,
@@ -270,7 +261,7 @@
       "stationId": "ueno",
       "hint": 3,
       "stage": "hint3",
-      "elapsedMs": 2220,
+      "elapsedMs": 2018,
       "zoom": 12.119155801646338,
       "center": [
         139.77654180000002,
@@ -279,19 +270,9 @@
       "roads": 2708,
       "rails": 17,
       "buildings": 0,
-      "facilityIconCount": 5,
-      "facilityIds": [
-        138585452,
-        203960902,
-        203960903,
-        441655802,
-        625528441
-      ],
-      "facilityKinds": [
-        "culture",
-        "education",
-        "religion"
-      ],
+      "facilityIconCount": 0,
+      "facilityIds": [],
+      "facilityKinds": [],
       "routeColourFeatureCount": 8,
       "routeColours": [
         "#00BFFF",
@@ -305,7 +286,7 @@
         "日比谷線",
         "銀座線"
       ],
-      "placeLabelCount": 15,
+      "placeLabelCount": 14,
       "facilityLabelCount": 1,
       "screenshot": "docs/screenshots/map-hints-poc/ueno/hint3.jpg"
     },
@@ -342,7 +323,7 @@
       "stationId": "kyoto",
       "hint": 1,
       "stage": "hint1",
-      "elapsedMs": 2697,
+      "elapsedMs": 1803,
       "zoom": 14.454088005702879,
       "center": [
         135.75876600000004,
@@ -380,7 +361,7 @@
       "stationId": "kyoto",
       "hint": 2,
       "stage": "hint2",
-      "elapsedMs": 3528,
+      "elapsedMs": 2240,
       "zoom": 12.869125504981723,
       "center": [
         135.75876600000004,
@@ -420,7 +401,7 @@
       "stationId": "kyoto",
       "hint": 3,
       "stage": "hint3",
-      "elapsedMs": 1981,
+      "elapsedMs": 1869,
       "zoom": 12.132159910815517,
       "center": [
         135.75876600000004,
@@ -429,20 +410,9 @@
       "roads": 996,
       "rails": 16,
       "buildings": 0,
-      "facilityIconCount": 5,
-      "facilityIds": [
-        171692862,
-        441352467,
-        5111884542,
-        5936885886,
-        12462481217
-      ],
-      "facilityKinds": [
-        "culture",
-        "education",
-        "religion",
-        "shopping"
-      ],
+      "facilityIconCount": 0,
+      "facilityIds": [],
+      "facilityKinds": [],
       "routeColourFeatureCount": 4,
       "routeColours": [
         "#3CB371",
@@ -453,8 +423,8 @@
         "奈良線",
         "烏丸線"
       ],
-      "placeLabelCount": 2,
-      "facilityLabelCount": 4,
+      "placeLabelCount": 3,
+      "facilityLabelCount": 2,
       "screenshot": "docs/screenshots/map-hints-poc/kyoto/hint3.jpg"
     }
   ],
@@ -472,5 +442,5 @@
   },
   "screenshotCopyErrors": [],
   "environment": "iPhone 17 Pro / iOS 26.5 simulator, debug",
-  "generatedAt": "2026-10-14T14:41:19.877884Z"
+  "generatedAt": "2026-10-15T12:54:48.910797Z"
 }
