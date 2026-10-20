@@ -68,9 +68,8 @@ LEGACY_FACILITY_IDS = {
     "kyoto": {"node/5111884542", "way/441352467", "node/5936885886", "node/12462481217", "way/171692862"},
 }
 LEGACY_REPRESENTATIVE_IDS = {
-    "tokyo": ("way/43934324", "node/1420789601"),
+    "tokyo": ("node/1420789601",),
     "ueno": ("way/203960903",),
-    "kyoto": ("way/31843043", "way/290375264"),
 }
 # Keep the superseded PoC candidates in the fresh source query so prior
 # acquisition caches remain reproducible; only the IDs above are rendered.
@@ -147,7 +146,7 @@ def safe_name(station: dict[str, Any], name: str) -> bool:
         if label_key(blocked) in key:
             return False
     aliases = [label_key(alias) for alias in answer_aliases(station)]
-    # A direct station reference is never safe, including an allow-list error.
+    # Answer-name substrings are never safe, including allow-list entries.
     if any(
         alias
         and (
@@ -160,9 +159,11 @@ def safe_name(station: dict[str, Any], name: str) -> bool:
         for alias in aliases
     ):
         return False
+    if any(alias and alias in key for alias in aliases):
+        return False
     if any(label_key(value) == key for value in station.get("allowedLabels", [])):
         return True
-    return not any(alias and alias in key for alias in aliases)
+    return True
 
 
 def station_query(station: dict[str, Any]) -> str:
@@ -1556,8 +1557,9 @@ timestamp、response bytes/SHA-256、所要時間は`sources.json`へ記録す�
   実geometryが駅中心500m円と交差する場合に表示する。名称はruntimeへ入れない。
   `usage/gauge/service`は採否条件にせず監査値として残す。
 - 代表施設は同じ取得日のOverpass responseにある駅中心2000m以内の実OSM ID・名称・座標から最大3件を選ぶ。
-  正解駅名・読み・aliasを含む名称は除外する。既存3駅の選定済みIDもfresh responseで
-  存在・名称・座標を再確認する。
+  正規化した正解駅名・読み・aliasを含む名称は、`allowedLabels`の有無にかかわらず除外する。
+  路線名・地名も同じ漏洩フィルターを通す。既存PoCの代表施設IDはfresh responseで
+  再確認し、駅名を含む候補は表示対象から除外する。
 - collectionは空を許容し、候補なし・曖昧・取得失敗を`audit.json`へ記録する。
 
 ## 出典・ライセンス

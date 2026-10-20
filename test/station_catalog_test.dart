@@ -136,16 +136,18 @@ void main() {
       expect(game.answers, isEmpty);
     },
   );
-  test('direct station leaks removed, useful city landmarks retained', () {
+  test('labels containing station names are rejected, including landmarks', () {
     final nagoya = stations.firstWhere((s) => s.id == 'nagoya');
     expect(isSafeHintLabel(nagoya, '名古屋駅前ビル'), false);
     expect(isSafeHintLabel(nagoya, 'Nagoya Station'), false);
-    expect(isSafeHintLabel(nagoya, '名古屋城'), true);
+    expect(isSafeHintLabel(nagoya, '名古屋城'), false);
     expect(isSafeHintLabel(nagoya, '名古屋ステーションギャラリー'), false);
     expect(isSafeHintLabel(nagoya, '名古屋キャラクターストリート'), false);
     final kyoto = stations.firstWhere((s) => s.id == 'kyoto');
-    expect(isSafeHintLabel(kyoto, '京都タワー'), true);
+    expect(isSafeHintLabel(kyoto, '京都タワー'), false);
     expect(isSafeHintLabel(kyoto, 'キョウト駅'), false);
+    final hakata = stations.firstWhere((s) => s.id == 'hakata');
+    expect(isSafeHintLabel(hakata, '博多区'), false);
     expect(isUsefulRailwayLabel(kyoto, '貨物線'), false);
   });
   test(

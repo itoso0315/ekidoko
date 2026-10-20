@@ -99,6 +99,9 @@ void main() {
       data.keys.where((s) => !s.toString().startsWith('_')).length,
       stations.length,
     );
+    const tileJson = {
+      'tiles': ['https://example.com/{z}/{x}/{y}.pbf'],
+    };
     for (final s in stations) {
       final row = data[s.id];
       expect(row, isNotNull, reason: s.id);
@@ -122,12 +125,26 @@ void main() {
           greaterThanOrEqualTo(2),
         );
       }
+      final style = quizMapStyle(
+        s,
+        tileJson,
+        hint: 3,
+        hintLabels: Map<String, dynamic>.from(row['labels'] as Map),
+      );
+      final reviewedSource =
+          ((style['sources'] as Map)['reviewed-hints'] as Map)['data'] as Map;
+      final renderedLabels = reviewedSource['features'] as List;
+      expect(
+        renderedLabels.every(
+          (label) => isSafeHintLabel(
+            s,
+            label['properties']['name'] as String,
+          ),
+        ),
+        true,
+        reason: '${s.id}: unsafe names must be filtered before rendering',
+      );
       for (final label in labels) {
-        expect(
-          isSafeHintLabel(s, label['properties']['name'] as String),
-          true,
-          reason: s.id,
-        );
         expect(label['properties']['osm_id'], isPositive);
         expect(
           label['properties']['osm_type'],
@@ -143,7 +160,7 @@ void main() {
     final hakata = stations.singleWhere((s) => s.id == 'hakata');
     expect(isSafeHintLabel(hakata, '博多駅前ビル'), false);
     expect(isSafeHintLabel(hakata, 'Hakata Station'), false);
-    expect(isSafeHintLabel(hakata, '博多区'), true);
+    expect(isSafeHintLabel(hakata, '博多区'), false);
     final kobe = stations.singleWhere((s) => s.id == 'sannomiya');
     expect(isSafeHintLabel(kobe, '三宮駅前ビル'), false);
   });

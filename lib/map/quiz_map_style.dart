@@ -30,8 +30,7 @@ String _labelKey(String value) => value.runes
     .toLowerCase()
     .replaceAll(RegExp(r'''[\s　_\-‐‑‒–—―・･.,，。()（）\[\]【】「」『』:：/／'’"]'''), '');
 
-/// Hide station POIs and direct station-name references, while preserving
-/// useful city landmarks (e.g. 名古屋城 and 京都タワー).
+/// Hide station POIs and any label that contains an answer name or alias.
 bool isSafeHintLabel(Station station, String label) =>
     isSafeMapHintLabel(station, label);
 

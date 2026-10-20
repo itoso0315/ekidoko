@@ -22,8 +22,7 @@ String _mapHintLabelKey(String value) => value.runes
     .toLowerCase()
     .replaceAll(RegExp(r'''[\s　_\-‐‑‒–—―・･.,，。()（）\[\]【】「」『』:：/／'’"]'''), '');
 
-/// Reject direct answer references in Japanese and alternate scripts. Exact
-/// reviewed landmarks may be allowed, but an explicit station reference wins.
+/// Reject answer names and aliases in Japanese, kana, or Latin script.
 bool isSafeMapHintLabel(Station station, String label) {
   final name = _mapHintLabelKey(label);
   if (name.isEmpty ||
@@ -47,12 +46,15 @@ bool isSafeMapHintLabel(Station station, String label) {
   )) {
     return false;
   }
+  if (aliases.any((key) => key.isNotEmpty && name.contains(key))) {
+    return false;
+  }
   if (station.allowedLabels.any(
     (allowed) => _mapHintLabelKey(allowed) == name,
   )) {
     return true;
   }
-  return !aliases.any(name.contains);
+  return true;
 }
 
 class MapHintsPoc {

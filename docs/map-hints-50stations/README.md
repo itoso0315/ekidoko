@@ -1,6 +1,6 @@
 # 50駅 地図ヒントデータ
 
-生成日時：2026-10-20T13:31:39.763250Z
+生成日時：2026-10-20T14:42:32.890583Z
 
 `tool/prepare_map_hints_50stations.py`が50駅を同一schemaで生成する。実行用データは
 `assets/maps/map_hints_poc.json`、取得manifestは`sources.json`、採否根拠は
@@ -21,7 +21,7 @@
 
 | ID | 駅 | 匿名施設 | 色付き路線 | 新幹線 | 代表施設名 | 未登録理由 |
 |---|---|---:|---:|---|---:|---|
-| tokyo | 東京 | 4 | 4 | あり | 2 | - |
+| tokyo | 東京 | 4 | 4 | あり | 1 | - |
 | shinjuku | 新宿 | 5 | 6 | なし | 3 | 新幹線: no railway=rail/highspeed=yes geometry intersects 500m circle |
 | shibuya | 渋谷 | 5 | 6 | なし | 3 | 新幹線: no railway=rail/highspeed=yes geometry intersects 500m circle |
 | shinagawa | 品川 | 2 | 5 | あり | 3 | - |
@@ -29,7 +29,7 @@
 | ikebukuro | 池袋 | 5 | 6 | なし | 3 | 新幹線: no railway=rail/highspeed=yes geometry intersects 500m circle |
 | nagoya | 名古屋 | 5 | 3 | あり | 3 | - |
 | osaka | 大阪 | 5 | 5 | なし | 3 | 新幹線: no railway=rail/highspeed=yes geometry intersects 500m circle |
-| kyoto | 京都 | 5 | 5 | あり | 2 | - |
+| kyoto | 京都 | 5 | 5 | あり | 3 | - |
 | yokohama | 横浜 | 5 | 5 | なし | 3 | 新幹線: no railway=rail/highspeed=yes geometry intersects 500m circle |
 | sapporo | 札幌 | 5 | 2 | なし | 3 | 新幹線: no railway=rail/highspeed=yes geometry intersects 500m circle |
 | sendai | 仙台 | 5 | 1 | あり | 3 | - |
@@ -99,8 +99,9 @@ timestamp、response bytes/SHA-256、所要時間は`sources.json`へ記録す�
   実geometryが駅中心500m円と交差する場合に表示する。名称はruntimeへ入れない。
   `usage/gauge/service`は採否条件にせず監査値として残す。
 - 代表施設は同じ取得日のOverpass responseにある駅中心2000m以内の実OSM ID・名称・座標から最大3件を選ぶ。
-  正解駅名・読み・aliasを含む名称は除外する。既存3駅の選定済みIDもfresh responseで
-  存在・名称・座標を再確認する。
+  正規化した正解駅名・読み・aliasを含む名称は、`allowedLabels`の有無にかかわらず除外する。
+  路線名・地名も同じ漏洩フィルターを通す。既存PoCの代表施設IDはfresh responseで
+  再確認し、駅名を含む候補は表示対象から除外する。
 - collectionは空を許容し、候補なし・曖昧・取得失敗を`audit.json`へ記録する。
 
 ## 出典・ライセンス
