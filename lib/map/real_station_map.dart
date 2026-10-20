@@ -55,6 +55,96 @@ Future<Map<String, dynamic>> loadTileJson() async {
   }
 }
 
+bool _pointIsInBounds(List<dynamic> point, LatLngBounds bounds) {
+  final longitude = (point[0] as num).toDouble();
+  final latitude = (point[1] as num).toDouble();
+  return longitude >= bounds.southwest.longitude &&
+      longitude <= bounds.northeast.longitude &&
+      latitude >= bounds.southwest.latitude &&
+      latitude <= bounds.northeast.latitude;
+}
+
+bool _segmentIntersectsBounds(
+  List<dynamic> start,
+  List<dynamic> end,
+  LatLngBounds bounds,
+) {
+  final x0 = (start[0] as num).toDouble();
+  final y0 = (start[1] as num).toDouble();
+  final dx = (end[0] as num).toDouble() - x0;
+  final dy = (end[1] as num).toDouble() - y0;
+  var minimum = 0.0;
+  var maximum = 1.0;
+
+  bool clip(double direction, double distance) {
+    if (direction == 0) return distance >= 0;
+    final ratio = distance / direction;
+    if (direction < 0) {
+      if (ratio > maximum) return false;
+      minimum = max(minimum, ratio);
+    } else {
+      if (ratio < minimum) return false;
+      maximum = min(maximum, ratio);
+    }
+    return true;
+  }
+
+  return clip(-dx, x0 - bounds.southwest.longitude) &&
+      clip(dx, bounds.northeast.longitude - x0) &&
+      clip(-dy, y0 - bounds.southwest.latitude) &&
+      clip(dy, bounds.northeast.latitude - y0);
+}
+
+bool _linesIntersectBounds(
+  Map<String, dynamic> collection,
+  LatLngBounds bounds,
+) {
+  for (final feature in collection['features'] as List<dynamic>) {
+    final coordinates = feature['geometry']['coordinates'] as List<dynamic>;
+    if (coordinates.any((point) => _pointIsInBounds(point as List, bounds))) {
+      return true;
+    }
+    for (var index = 1; index < coordinates.length; index++) {
+      if (_segmentIntersectsBounds(
+        coordinates[index - 1] as List,
+        coordinates[index] as List,
+        bounds,
+      )) {
+        return true;
+      }
+    }
+  }
+  return false;
+}
+
+Map<dynamic, dynamic>? _featureProperties(dynamic feature) {
+  if (feature is! Map || feature['properties'] is! Map) return null;
+  return feature['properties'] as Map;
+}
+
+String? _osmObjectKey(Map<dynamic, dynamic>? properties) {
+  if (properties == null) return null;
+  final type = properties['osm_type'];
+  if (!const {'node', 'way', 'relation'}.contains(type)) return null;
+  final rawId = properties['osm_id'];
+  String? id;
+  if (rawId is num &&
+      rawId.isFinite &&
+      rawId > 0 &&
+      rawId == rawId.roundToDouble()) {
+    id = rawId.toInt().toString();
+  } else if (rawId is String && RegExp(r'^[1-9][0-9]*$').hasMatch(rawId)) {
+    id = rawId;
+  }
+  return id == null ? null : '$type/$id';
+}
+
+String? _safeFeatureName(Station station, Map<dynamic, dynamic>? properties) {
+  final value = properties?['name'];
+  if (value is! String || !isSafeMapHintLabel(station, value)) return null;
+  return value.trim();
+}
+
 class RealStationMap extends StatefulWidget {
   const RealStationMap({
     super.key,
@@ -95,6 +185,9 @@ class RealStationMapState extends State<RealStationMap> {
   bool get ready => _ready;
   String? get error => _error;
   Map<String, int> renderedFeatureCounts = {};
+  Set<String> expectedRepresentativeKeys = {};
+  Set<String> renderedRepresentativeKeys = {};
+  Set<String> missingRepresentativeKeys = {};
 
   @override
   void initState() {
@@ -126,6 +219,10 @@ class RealStationMapState extends State<RealStationMap> {
 
   void _waiting() {
     _ready = false;
+    renderedFeatureCounts = {};
+    expectedRepresentativeKeys = {};
+    renderedRepresentativeKeys = {};
+    missingRepresentativeKeys = {};
     _notifyAvailability(false);
     _timer?.cancel();
     final generation = _generation;
@@ -224,10 +321,12 @@ class RealStationMapState extends State<RealStationMap> {
       int revision;
       do {
         revision = _revision;
-        await controller.setLayerVisibility(
-          'named-railway-colors',
-          widget.hint >= (_pocHints != null ? 1 : 2),
-        );
+        if (_pocHints?.hasRoutes ?? false) {
+          await controller.setLayerVisibility(
+            'verified-route-colors',
+            widget.hint >= 1,
+          );
+        }
         await controller.setLayerVisibility('railway-labels', widget.hint >= 2);
         await controller.setLayerVisibility('hint-places', widget.hint >= 3);
         if (_pocHints == null) {
@@ -235,12 +334,26 @@ class RealStationMapState extends State<RealStationMap> {
             'hint-facility-markers',
             widget.hint >= 3,
           );
-        } else {
+        } else if (_pocHints!.hasFacilities) {
           // At 5 km, unnamed category icons become ambiguous. Leave only the
           // curated, named representative facilities shown by the text layer.
-          await controller.setLayerVisibility(
+          await controller.setLayerProperties(
             'poc-facility-icons',
-            widget.hint < 3,
+            SymbolLayerProperties(
+              visibility: widget.hint < 3 ? 'visible' : 'none',
+              iconImage: [
+                'concat',
+                'facility-',
+                ['get', 'kind'],
+              ],
+              // A 48px sprite is 16pt on 3x iOS: 24pt at hints 0/1 and
+              // 18pt at hint 2, where route labels need more room.
+              iconSize: widget.hint == 2 ? 1.125 : 1.5,
+              iconPadding: 3,
+              iconAllowOverlap: true,
+              iconIgnorePlacement: true,
+              symbolSortKey: ['get', 'rank'],
+            ),
           );
         }
         await controller.setLayerVisibility(
@@ -275,7 +388,7 @@ class RealStationMapState extends State<RealStationMap> {
     final controller = _controller;
     if (controller == null) return;
     try {
-      if (_pocHints != null) {
+      if (_pocHints?.hasFacilities ?? false) {
         final images = await facilityIconImages();
         for (final entry in images.entries) {
           if (!mounted || generation != _generation || _error != null) return;
@@ -327,38 +440,103 @@ class RealStationMapState extends State<RealStationMap> {
               'railway-labels',
             ], null)
           : null;
-      final labels = widget.hint >= 3
+      final placeLabels = widget.hint >= 3
           ? await controller.queryRenderedFeaturesInRect(rect, [
               'hint-places',
+            ], null)
+          : null;
+      final representativeLabels = widget.hint >= 3
+          ? await controller.queryRenderedFeaturesInRect(rect, [
               'hint-facilities',
             ], null)
           : null;
-      final icons = _pocHints != null && widget.hint < 3
+      final icons = (_pocHints?.hasFacilities ?? false) && widget.hint < 3
           ? await controller.queryRenderedFeaturesInRect(rect, [
               'poc-facility-icons',
             ], null)
           : null;
-      final highSpeedRails = _pocHints != null
+      final highSpeedRails = (_pocHints?.hasHighSpeedRailways ?? false)
           ? await controller.queryRenderedFeaturesInRect(rect, [
               'high-speed-rail',
             ], null)
           : null;
-      var expectsIcon = false;
-      if (_pocHints != null && widget.hint < 3) {
-        final bounds = await controller.getVisibleRegion();
-        expectsIcon = (_pocHints!.facilities['features'] as List).any((f) {
-          final point = f['geometry']['coordinates'] as List;
-          return point[0] >= bounds.southwest.longitude &&
-              point[0] <= bounds.northeast.longitude &&
-              point[1] >= bounds.southwest.latitude &&
-              point[1] <= bounds.northeast.latitude;
-        });
-      }
-      final routeColors = _pocHints != null && widget.hint >= 1
+      final routeColors = (_pocHints?.hasRoutes ?? false) && widget.hint >= 1
           ? await controller.queryRenderedFeaturesInRect(rect, [
-              'named-railway-colors',
+              'verified-route-colors',
             ], null)
           : null;
+      final checksRepresentatives =
+          widget.hint >= 3 && (_pocHints?.hasRepresentativeFacilities ?? false);
+      final needsBounds =
+          icons != null ||
+          highSpeedRails != null ||
+          routeColors != null ||
+          checksRepresentatives;
+      final bounds = needsBounds ? await controller.getVisibleRegion() : null;
+      final expectsIcon =
+          icons != null &&
+          (_pocHints!.facilities['features'] as List).any((feature) {
+            final point = feature['geometry']['coordinates'] as List<dynamic>;
+            return _pointIsInBounds(point, bounds!);
+          });
+      final expectsHighSpeed =
+          highSpeedRails != null &&
+          _linesIntersectBounds(_pocHints!.highSpeedRailways, bounds!);
+      final expectsRouteColor =
+          routeColors != null &&
+          _linesIntersectBounds(_pocHints!.routes, bounds!);
+      final expectedRepresentatives = checksRepresentatives
+          ? (_pocHints!.representativeFacilities['features'] as List<dynamic>)
+                .where((feature) {
+                  final point =
+                      feature['geometry']['coordinates'] as List<dynamic>;
+                  return _pointIsInBounds(point, bounds!);
+                })
+                .toList()
+          : <dynamic>[];
+      final unmatchedRenderedRepresentatives = <Map<String, String?>>[
+        for (final feature
+            in representativeLabels ?? const <Map<String, dynamic>>[])
+          if (_featureProperties(feature) case final properties?)
+            {
+              'osmKey': _osmObjectKey(properties),
+              'name': _safeFeatureName(widget.station, properties),
+            },
+      ];
+      final expectedRepresentativeKeysForFrame = <String>{};
+      final renderedRepresentativeKeysForFrame = <String>{};
+      for (final item in unmatchedRenderedRepresentatives) {
+        final name = item['name'];
+        final key = item['osmKey'] ?? (name == null ? null : 'name:$name');
+        if (key != null) renderedRepresentativeKeysForFrame.add(key);
+      }
+      final matchedRepresentativeKeysForFrame = <String>{};
+      for (final feature in expectedRepresentatives) {
+        final properties = _featureProperties(feature);
+        final osmKey = _osmObjectKey(properties);
+        final name = _safeFeatureName(widget.station, properties);
+        final expectedKey = osmKey ?? (name == null ? null : 'name:$name');
+        if (expectedKey == null) continue;
+        expectedRepresentativeKeysForFrame.add(expectedKey);
+        var matchIndex = osmKey == null
+            ? -1
+            : unmatchedRenderedRepresentatives.indexWhere(
+                (rendered) => rendered['osmKey'] == osmKey,
+              );
+        if (matchIndex < 0 && name != null) {
+          matchIndex = unmatchedRenderedRepresentatives.indexWhere(
+            (rendered) => rendered['name'] == name,
+          );
+        }
+        if (matchIndex >= 0) {
+          unmatchedRenderedRepresentatives.removeAt(matchIndex);
+          matchedRepresentativeKeysForFrame.add(expectedKey);
+        }
+      }
+      final missingRepresentativeKeysForFrame =
+          expectedRepresentativeKeysForFrame.difference(
+            matchedRepresentativeKeysForFrame,
+          );
       if (!mounted ||
           generation != _generation ||
           revision != _revision ||
@@ -369,20 +547,31 @@ class RealStationMapState extends State<RealStationMap> {
         'roads': roads.length,
         'rails': rails.length,
         'buildings': buildings.length,
-        'labels': labels?.length ?? 0,
+        'labels':
+            (placeLabels?.length ?? 0) + (representativeLabels?.length ?? 0),
+        'placeLabels': placeLabels?.length ?? 0,
+        'representativeLabels': representativeLabels?.length ?? 0,
+        'expectedRepresentativeLabels':
+            expectedRepresentativeKeysForFrame.length,
+        'matchedRepresentativeLabels': matchedRepresentativeKeysForFrame.length,
+        'missingRepresentativeLabels': missingRepresentativeKeysForFrame.length,
         'routeLabels': routeLabels?.length ?? 0,
         if (icons != null) 'facilityIcons': icons.length,
         if (highSpeedRails != null) 'highSpeedRails': highSpeedRails.length,
         if (routeColors != null) 'routeColors': routeColors.length,
       };
+      expectedRepresentativeKeys = expectedRepresentativeKeysForFrame;
+      renderedRepresentativeKeys = renderedRepresentativeKeysForFrame;
+      missingRepresentativeKeys = missingRepresentativeKeysForFrame;
       if (roads.isNotEmpty &&
           rails.isNotEmpty &&
           (widget.hint >= 2 || buildings.isNotEmpty) &&
-          (labels == null || labels.isNotEmpty) &&
+          (placeLabels == null || placeLabels.isNotEmpty) &&
           (routeLabels == null || routeLabels.isNotEmpty) &&
-          (!expectsIcon || icons!.isNotEmpty) &&
-          (highSpeedRails == null || highSpeedRails.isNotEmpty) &&
-          (routeColors == null || routeColors.isNotEmpty)) {
+          missingRepresentativeKeysForFrame.isEmpty &&
+          (!expectsIcon || icons.isNotEmpty) &&
+          (!expectsHighSpeed || highSpeedRails.isNotEmpty) &&
+          (!expectsRouteColor || routeColors.isNotEmpty)) {
         _timer?.cancel();
         setState(() {
           _ready = true;
@@ -484,7 +673,8 @@ class RealStationMapState extends State<RealStationMap> {
             if (_error == null) ...[
               const Positioned(top: 12, left: 12, child: MapChip('実地図')),
               const Positioned(top: 12, right: 12, child: MapChip('↑ N')),
-              if (widget.hint >= 3)
+              if (widget.hint >= 3 &&
+                  (_pocHints == null || _pocHints!.hasRepresentativeFacilities))
                 Positioned(
                   bottom: 36,
                   right: 12,
@@ -494,7 +684,10 @@ class RealStationMapState extends State<RealStationMap> {
                     backgroundColor: const Color(0xfffff1e3),
                   ),
                 ),
-              if (_pocHints != null && widget.hint == 0 && _ready)
+              if ((_pocHints?.hasHighSpeedRailways ?? false) &&
+                  widget.hint == 0 &&
+                  (renderedFeatureCounts['highSpeedRails'] ?? 0) > 0 &&
+                  _ready)
                 const Positioned(
                   bottom: 36,
                   right: 12,

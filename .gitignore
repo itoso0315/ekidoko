@@ -27,6 +27,7 @@ migrate_working_dir/
 **/doc/api/
 **/ios/Flutter/.last_build_id
 .dart_tool/
+.flutter-plugins
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
@@ -50,6 +51,12 @@ app.*.map.json
 !.env.example
 *.p12
 *.p8
+*.pem
+*.jks
+*.keystore
+*.cer
 *.mobileprovision
+*.provisionprofile
 *.key
+**/key.properties
 **/__pycache__/

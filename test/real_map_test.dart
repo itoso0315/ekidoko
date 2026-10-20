@@ -106,8 +106,8 @@ void main() {
         final symbols = layers.where((l) => l['type'] == 'symbol').toList();
         expect(symbols.map((l) => l['id']), [
           'hint-places',
-          'hint-facilities',
           'railway-labels',
+          'hint-facilities',
         ]);
         expect(
           symbols.every(
@@ -119,10 +119,10 @@ void main() {
           ),
           true,
         );
-        // Route labels must retain placement priority when H3 adds POIs.
-        expect(layers.last['id'], 'railway-labels');
+        // H3 landmark labels are drawn after route labels to retain priority.
+        expect(symbols.last['id'], 'hint-facilities');
         expect(
-          layers.last['layout']['text-allow-overlap'] ?? false,
+          symbols[symbols.length - 2]['layout']['text-allow-overlap'] ?? false,
           false,
         );
         final markers = layers.singleWhere(

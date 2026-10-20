@@ -8,7 +8,6 @@ const tileJsonUrl = String.fromEnvironment(
 );
 const glyphsUrl = 'https://tiles.openfreemap.org/fonts/{fontstack}/{range}.pbf';
 const mapSpans = [500.0, 1000.0, 3000.0, 5000.0];
-const highSpeedRailMaxDistanceMeters = 500.0;
 
 /// Span of the shorter viewport side, using Web Mercator / 512px tiles.
 double quizZoom(double latitude, double shorterSide, int hint) =>
@@ -23,38 +22,18 @@ double quizZoom(double latitude, double shorterSide, int hint) =>
 
 // Labels are not answers: keep the final 駅 in exclusion phrases such as 札駅.
 String _labelKey(String value) => value.runes
-    .map((r) => String.fromCharCode(r >= 0x30a1 && r <= 0x30f6 ? r - 0x60 : r))
+    .map((r) {
+      if (r >= 0xff01 && r <= 0xff5e) return String.fromCharCode(r - 0xfee0);
+      return String.fromCharCode(r >= 0x30a1 && r <= 0x30f6 ? r - 0x60 : r);
+    })
     .join()
     .toLowerCase()
-    .replaceAll(RegExp(r'[\s　_\-]'), '');
+    .replaceAll(RegExp(r'''[\s　_\-‐‑‒–—―・･.,，。()（）\[\]【】「」『』:：/／'’"]'''), '');
 
 /// Hide station POIs and direct station-name references, while preserving
 /// useful city landmarks (e.g. 名古屋城 and 京都タワー).
-bool isSafeHintLabel(Station station, String label) {
-  final name = _labelKey(label);
-  if (name.isEmpty ||
-      station.blockedLabels.any((s) => name.contains(_labelKey(s)))) {
-    return false;
-  }
-  final aliases = [
-    station.name,
-    station.kana,
-    ...station.answerAliases,
-  ].map(_labelKey);
-  // Direct station references always win, even over an allow-list mistake.
-  if (aliases.any(
-    (key) =>
-        name == key ||
-        name.contains('$key駅') ||
-        name.contains('${key}station') ||
-        name.contains('$keyステーション') ||
-        name.contains('${key}stn'),
-  )) {
-    return false;
-  }
-  if (station.allowedLabels.any((s) => _labelKey(s) == name)) return true;
-  return !aliases.any(name.contains);
-}
+bool isSafeHintLabel(Station station, String label) =>
+    isSafeMapHintLabel(station, label);
 
 bool isUsefulRailwayLabel(Station station, String label) =>
     !label.contains('貨物') &&
@@ -66,37 +45,8 @@ bool isUsefulRailwayLabel(Station station, String label) =>
       ...station.answerAliases,
     ].any((alias) => _labelKey(label).contains(_labelKey(alias)));
 
-const _reviewedHighSpeedRailwayNames = {
-  'tokyo': {'東海道新幹線', '東北新幹線'},
-  'ueno': {'東北新幹線'},
-  'kyoto': {'東海道新幹線'},
-};
-
-bool isHighSpeedRailwayLabel(Station station, String label) {
-  final key = _labelKey(label);
-  return (_reviewedHighSpeedRailwayNames[station.id] ?? const <String>{})
-          .map(_labelKey)
-          .contains(key) &&
-      isUsefulRailwayLabel(station, label);
-}
-
-bool _highSpeedRailwayPassesNearStation(Station station, dynamic feature) {
-  final points = feature['geometry']['coordinates'] as List;
-  for (final point in points) {
-    final dx =
-        ((point[0] as num) - station.longitude) *
-        cos(station.latitude * pi / 180) *
-        111320;
-    final dy = ((point[1] as num) - station.latitude) * 111320;
-    if (sqrt(dx * dx + dy * dy) <= highSpeedRailMaxDistanceMeters) {
-      return true;
-    }
-  }
-  return false;
-}
-
 /// Own style: no external default style, sprites, station/road/water labels.
-/// Only exact reviewed names from the actual vector data are permitted.
+/// Only reviewed route colours and safe hint labels are permitted.
 Map<String, dynamic> quizMapStyle(
   Station station,
   Map<String, dynamic> tileJson, {
@@ -108,21 +58,19 @@ Map<String, dynamic> quizMapStyle(
   if (poc != null && poc.stationId != station.id) {
     throw ArgumentError('PoC data belongs to a different station');
   }
-  final routeData = poc?.routes ?? railways;
-  final highSpeedRailways = <Map<String, dynamic>>[
-    if (poc != null)
-      for (final feature in railways?['features'] as List? ?? <dynamic>[])
-        if (isHighSpeedRailwayLabel(
-              station,
-              feature['properties']['name'] as String,
-            ) &&
-            _highSpeedRailwayPassesNearStation(station, feature))
-          {
-            'type': 'Feature',
-            'geometry': feature['geometry'],
-            // The initial clue exposes only a rail category, never its name.
-            'properties': {'railType': 'highSpeed'},
-          },
+  final verifiedRoutes = <Map<String, dynamic>>[
+    for (final feature
+        in poc?.routes['features'] as List<dynamic>? ?? <dynamic>[])
+      {
+        'type': 'Feature',
+        'geometry': feature['geometry'],
+        // The overlay needs only visual properties. Do not expose route names
+        // before the independently filtered hint-2 label layer.
+        'properties': {
+          'color': feature['properties']['color'],
+          'lineOffset': feature['properties']['lineOffset'],
+        },
+      },
   ];
   final name = [
     'coalesce',
@@ -132,20 +80,15 @@ Map<String, dynamic> quizMapStyle(
   ];
   final safeHints = <dynamic>[
     for (final feature in hintLabels?['features'] as List? ?? <dynamic>[])
-      if (isSafeHintLabel(station, feature['properties']['name'] as String))
+      if ((poc == null || feature['properties']['kind'] == 'place') &&
+          isSafeHintLabel(station, feature['properties']['name'] as String))
         feature,
+    if (poc != null)
+      for (final feature
+          in poc.representativeFacilities['features'] as List<dynamic>)
+        if (isSafeHintLabel(station, feature['properties']['name'] as String))
+          feature,
   ];
-  if (poc != null) {
-    final representativeIds =
-        mapHintsPocRepresentativeFacilityIds[station.id] ?? const <String>{};
-    safeHints.removeWhere((feature) {
-      final properties = feature['properties'];
-      return properties['kind'] == 'facility' &&
-          !representativeIds.contains(
-            '${properties['osm_type']}/${properties['osm_id']}',
-          );
-    });
-  }
   Map<String, dynamic> layer(
     String id,
     String type,
@@ -195,8 +138,7 @@ Map<String, dynamic> quizMapStyle(
         'data': {
           'type': 'FeatureCollection',
           'features': [
-            for (final feature
-                in routeData?['features'] as List? ?? <dynamic>[])
+            for (final feature in railways?['features'] as List? ?? <dynamic>[])
               if (isUsefulRailwayLabel(
                 station,
                 feature['properties']['name'] as String,
@@ -216,12 +158,19 @@ Map<String, dynamic> quizMapStyle(
         'maxzoom': tileJson['maxzoom'] ?? 14,
         'attribution': tileJson['attribution'],
       },
-      if (poc != null)
-        'poc-facilities': {'type': 'geojson', 'data': poc.facilities},
-      if (poc != null)
+      if (poc?.hasFacilities ?? false)
+        'poc-facilities': {'type': 'geojson', 'data': poc!.facilities},
+      if (poc?.hasRoutes ?? false)
+        'verified-routes': {
+          'type': 'geojson',
+          'buffer': 256,
+          'tolerance': 0.25,
+          'data': {'type': 'FeatureCollection', 'features': verifiedRoutes},
+        },
+      if (poc?.hasHighSpeedRailways ?? false)
         'high-speed-railways': {
           'type': 'geojson',
-          'data': {'type': 'FeatureCollection', 'features': highSpeedRailways},
+          'data': poc!.highSpeedRailways,
         },
     },
     'layers': [
@@ -375,7 +324,33 @@ Map<String, dynamic> quizMapStyle(
         ],
         'line-dasharray': [0.2, 3],
       }, filter: rail),
-      if (poc != null) ...[
+      if (poc?.hasRoutes ?? false)
+        {
+          'id': 'verified-route-colors',
+          'type': 'line',
+          'source': 'verified-routes',
+          'layout': {
+            'visibility': hint >= 1 ? 'visible' : 'none',
+            'line-cap': 'round',
+            'line-join': 'round',
+          },
+          'paint': {
+            'line-color': ['get', 'color'],
+            'line-offset': ['get', 'lineOffset'],
+            'line-width': [
+              'interpolate',
+              ['linear'],
+              ['zoom'],
+              12,
+              2.2,
+              18,
+              4,
+            ],
+          },
+        },
+      // Keep the category cue above every conventional-rail overlay. The
+      // white casing remains visible even where both geometries share track.
+      if (poc?.hasHighSpeedRailways ?? false) ...[
         {
           'id': 'high-speed-rail-casing',
           'type': 'line',
@@ -414,29 +389,6 @@ Map<String, dynamic> quizMapStyle(
           },
         },
       ],
-      {
-        'id': 'named-railway-colors',
-        'type': 'line',
-        'source': 'named-railways',
-        'layout': {
-          'visibility': hint >= (poc != null ? 1 : 2) ? 'visible' : 'none',
-          'line-cap': 'round',
-          'line-join': 'round',
-        },
-        'paint': {
-          'line-color': ['get', 'color'],
-          if (poc != null) 'line-offset': ['get', 'lineOffset'],
-          'line-width': [
-            'interpolate',
-            ['linear'],
-            ['zoom'],
-            12,
-            2.2,
-            18,
-            4,
-          ],
-        },
-      },
       if (poc == null)
         {
           'id': 'hint-facility-markers',
@@ -455,47 +407,30 @@ Map<String, dynamic> quizMapStyle(
             'circle-stroke-width': 2.5,
           },
         },
-      for (final entry in {
-        'hint-places': 'place',
-        'hint-facilities': 'facility',
-      }.entries)
-        {
-          'id': entry.key,
-          'type': 'symbol',
-          'source': 'reviewed-hints',
-          'filter': [
-            '==',
-            ['get', 'kind'],
-            entry.value,
-          ],
-          'layout': {
-            ...labels,
-            if (entry.value == 'place') ...{
-              'text-variable-anchor': [
-                'center',
-                'top',
-                'bottom',
-                'left',
-                'right',
-              ],
-              'text-radial-offset': 0.5,
-              'text-padding': 2,
-              'text-max-width': 6,
-            },
-            if (entry.value == 'facility') ...{
-              'text-size': 13,
-              'text-anchor': 'top',
-              'text-offset': [0, 0.8],
-            },
-          },
-          'paint': {
-            'text-color': entry.value == 'facility' ? '#a45e29' : '#65766b',
-            'text-halo-color': '#ffffff',
-            'text-halo-width': 2,
-          },
+      {
+        'id': 'hint-places',
+        'type': 'symbol',
+        'source': 'reviewed-hints',
+        'filter': [
+          '==',
+          ['get', 'kind'],
+          'place',
+        ],
+        'layout': {
+          ...labels,
+          'text-variable-anchor': ['center', 'top', 'bottom', 'left', 'right'],
+          'text-radial-offset': 0.5,
+          'text-padding': 2,
+          'text-max-width': 6,
         },
-      // Later symbol layers win collision placement. Keep route names
-      // visible at hint 3 without allowing overlapping text.
+        'paint': {
+          'text-color': '#65766b',
+          'text-halo-color': '#ffffff',
+          'text-halo-width': 2,
+        },
+      },
+      // Route names remain visible at H2/H3. Representative facilities are
+      // drawn after them so a registered landmark keeps visual priority.
       {
         'id': 'railway-labels',
         'type': 'symbol',
@@ -513,12 +448,43 @@ Map<String, dynamic> quizMapStyle(
           'text-rotation-alignment': 'map',
         },
         'paint': {
-          'text-color': ['get', 'color'],
+          // station_hints colours are identifiers, not verified official
+          // route colours. Keep labels neutral and use only the reviewed
+          // overlay above for branded line colours.
+          'text-color': '#52645f',
           'text-halo-color': '#ffffff',
           'text-halo-width': 2.5,
         },
       },
-      if (poc != null)
+      {
+        'id': 'hint-facilities',
+        'type': 'symbol',
+        'source': 'reviewed-hints',
+        'filter': [
+          '==',
+          ['get', 'kind'],
+          'facility',
+        ],
+        'layout': {
+          ...labels,
+          'text-size': 13,
+          'text-variable-anchor': ['top', 'bottom', 'left', 'right', 'center'],
+          'text-radial-offset': 0.8,
+          'text-max-width': 8,
+          if (poc != null) ...{
+            // At most three registered landmarks exist. Draw all of them and
+            // do not suppress the route/place labels already placed below.
+            'text-allow-overlap': true,
+            'text-ignore-placement': true,
+          },
+        },
+        'paint': {
+          'text-color': '#a45e29',
+          'text-halo-color': '#ffffff',
+          'text-halo-width': 2.5,
+        },
+      },
+      if (poc?.hasFacilities ?? false)
         {
           'id': 'poc-facility-icons',
           'type': 'symbol',
@@ -531,18 +497,9 @@ Map<String, dynamic> quizMapStyle(
               'facility-',
               ['get', 'kind'],
             ],
-            // iOS decodes the 48px sprite at the device scale (16pt on 3x).
-            // Keep the close-range clue near 24pt, then reduce overlap as the
-            // camera reveals more route labels through hint 2.
-            'icon-size': [
-              'interpolate',
-              ['linear'],
-              ['zoom'],
-              12,
-              1.0,
-              15.5,
-              1.5,
-            ],
+            // iOS decodes the 48px sprite at 16pt on a 3x device. Hints 0/1
+            // use 24pt; hint 2 shrinks to 18pt to leave room for route names.
+            'icon-size': hint == 2 ? 1.125 : 1.5,
             'icon-padding': 3,
             // At most five reviewed icons are present. Keep them visible
             // through hint 2 without suppressing route labels. At hint 3 the
