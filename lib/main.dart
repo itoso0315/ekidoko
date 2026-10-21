@@ -12,7 +12,7 @@ class EkidokoApp extends StatelessWidget {
   const EkidokoApp({super.key});
   @override
   Widget build(BuildContext context) => MaterialApp(
-    title: 'ekidoko',
+    title: 'Ekidoko',
     debugShowCheckedModeBanner: false,
     theme: buildEkidokoTheme(),
     home: const CatalogScreen(),

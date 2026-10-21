@@ -6,6 +6,7 @@ import 'package:ekidoko/map/station_map.dart';
 import 'package:ekidoko/screens/app_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'support/catalog.dart';
 
@@ -30,6 +31,8 @@ Station copyStation(
 );
 
 void main() {
+  setUp(() => SharedPreferences.setMockInitialValues({}));
+
   test(
     'Easy is initially selected and samples the entire Easy-eligible pool',
     () {
@@ -109,6 +112,25 @@ void main() {
       hard.dispose();
     },
   );
+
+  test('result rating is available only after a game is completed', () {
+    final game = Game(catalog: catalog, random: Random(31));
+    expect(game.resultRating, isNull);
+    game.selectDifficulty(GameDifficulty.hard);
+    game.start();
+    expect(game.resultRating, isNull);
+
+    while (!game.finished) {
+      game.submitChoice(game.station);
+      game.next();
+    }
+
+    expect(game.resultRating?.points, 1100);
+    expect(game.resultRating?.rank, ResultRank.ss);
+    game.home();
+    expect(game.resultRating, isNull);
+    game.dispose();
+  });
 
   for (final difficulty in GameDifficulty.values) {
     test(
@@ -229,7 +251,7 @@ void main() {
           await tester.ensureVisible(find.text('この駅で回答する'));
           await tester.tap(find.text('この駅で回答する'));
           await tester.pumpAndSettle();
-          final next = find.text(question == 9 ? '結果を見る' : '次の問題へ');
+          final next = find.text(question == 9 ? 'ランクを見る' : '次の問題へ');
           await tester.ensureVisible(next);
           await tester.tap(next);
           await tester.pumpAndSettle();
@@ -237,6 +259,34 @@ void main() {
         }
         expect(game.score, 900);
         expect(game.correctCount, 9);
+        final expectedRankPoints = difficulty == GameDifficulty.easy
+            ? '900 pt'
+            : '990 pt';
+        expect(find.byKey(const ValueKey('rank-reveal-popup')), findsOneWidget);
+        expect(
+          tester
+              .widget<Text>(find.byKey(const ValueKey('rank-reveal-points')))
+              .data,
+          'ランクポイント $expectedRankPoints',
+        );
+        expect(
+          tester
+              .widget<Text>(find.byKey(const ValueKey('rank-reveal-rank')))
+              .data,
+          'S',
+        );
+        await tester.tap(find.byKey(const ValueKey('rank-reveal-popup')));
+        await tester.pumpAndSettle();
+        expect(
+          tester
+              .widget<Text>(find.byKey(const ValueKey('result-rank-points')))
+              .data,
+          expectedRankPoints,
+        );
+        expect(
+          tester.widget<Text>(find.byKey(const ValueKey('result-rank'))).data,
+          'S',
+        );
         expect(
           find.descendant(
             of: find.byKey(const ValueKey('result-difficulty')),

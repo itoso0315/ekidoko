@@ -5,6 +5,7 @@ import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:ekidoko/game/game.dart';
 import 'package:ekidoko/map/map_availability.dart';
 import 'package:ekidoko/map/quiz_map_style.dart';
@@ -121,10 +122,7 @@ void main() {
         );
         // Route labels must retain placement priority when H3 adds POIs.
         expect(layers.last['id'], 'railway-labels');
-        expect(
-          layers.last['layout']['text-allow-overlap'] ?? false,
-          false,
-        );
+        expect(layers.last['layout']['text-allow-overlap'] ?? false, false);
         final markers = layers.singleWhere(
           (l) => l['id'] == 'hint-facility-markers',
         );
@@ -210,6 +208,7 @@ void main() {
   );
 
   testWidgets('ten-question UI reaches result and replays', (tester) async {
+    SharedPreferences.setMockInitialValues({});
     tester.view.physicalSize = const Size(390, 844);
     tester.view.devicePixelRatio = 1;
     addTearDown(tester.view.resetPhysicalSize);
@@ -232,11 +231,14 @@ void main() {
       await tester.ensureVisible(find.text('この駅で回答する'));
       await tester.tap(find.text('この駅で回答する'));
       await tester.pumpAndSettle();
-      final next = find.text(i == 9 ? '結果を見る' : '次の問題へ');
+      final next = find.text(i == 9 ? 'ランクを見る' : '次の問題へ');
       await tester.ensureVisible(next);
       await tester.tap(next);
       await tester.pumpAndSettle();
     }
+    expect(find.byKey(const ValueKey('rank-reveal-popup')), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('rank-reveal-popup')));
+    await tester.pumpAndSettle();
     expect(find.text('/ 1,000 pt'), findsOneWidget);
     await tester.ensureVisible(find.text('もう一度遊ぶ'));
     await tester.tap(find.text('もう一度遊ぶ'));

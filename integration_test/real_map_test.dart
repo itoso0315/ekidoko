@@ -1,5 +1,5 @@
-import 'dart:math';
 import 'dart:io';
+import 'dart:math';
 import 'package:ekidoko/map/map_hint_data.dart';
 import 'support/question_order_random.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +7,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:ekidoko/game/game.dart';
 import 'package:ekidoko/main.dart';
+import 'package:ekidoko/map/home_map_preview.dart';
 import 'package:ekidoko/map/real_station_map.dart';
 import 'package:ekidoko/map/quiz_map_style.dart';
 import 'package:ekidoko/screens/app_screen.dart';
@@ -22,6 +23,7 @@ void main() {
     'EKIDOKO_CAPTURE',
     defaultValue: true,
   );
+
   for (final batch
       in phase3 ? [requestedBatch] : List.generate(quick ? 1 : 2, (i) => i)) {
     testWidgets('map batch $batch: ten real stations, four stages and full game', (
@@ -105,18 +107,13 @@ void main() {
           }
         }
 
-        for (var i = 0; i < 100; i++) {
-          await tester.pump(const Duration(milliseconds: 100));
-          await Future<void>.delayed(const Duration(milliseconds: 100));
-          final map = tester.state<RealStationMapState>(
-            find.byType(RealStationMap),
-          );
-          if (map.error != null) fail(map.error!);
-          if (map.ready) break;
-        }
+        await tester.pumpAndSettle();
         expect(find.text('Ekidoko'), findsOneWidget);
+        expect(find.byType(HomeMapPreview), findsOneWidget);
+        expect(find.byType(RealStationMap), findsNothing);
+        expect(find.text('地図を読み込んでいます…'), findsNothing);
         quality['testSetupToHomeMapMs'] = setupWatch.elapsedMilliseconds;
-        final homeMap = tester.getSize(find.byType(RealStationMap));
+        final homeMap = tester.getSize(find.byType(HomeMapPreview));
         expect(homeMap.width, closeTo(homeMap.height, 0.1));
         if (batch == 0) await capture(phase3 ? 'phase3/home' : 'phase2/home');
         if (mode == GameDifficulty.hard) {
@@ -439,12 +436,16 @@ void main() {
           expect(find.text(question == 1 ? '残念！' : '正解！'), findsOneWidget);
           expect(find.text('${station.name}駅'), findsNWidgets(2));
 
-          final next = find.text(question == 9 ? '結果を見る' : '次の問題へ');
+          final next = find.text(question == 9 ? 'ランクを見る' : '次の問題へ');
           await tester.ensureVisible(next);
           initialWatch.reset();
           await tester.tap(next);
           await tester.pump(const Duration(milliseconds: 500));
         }
+        expect(find.byKey(const ValueKey('rank-reveal-popup')), findsOneWidget);
+        await tester.tap(find.byKey(const ValueKey('rank-reveal-popup')));
+        await tester.pump(const Duration(milliseconds: 500));
+        expect(find.byKey(const ValueKey('rank-reveal-popup')), findsNothing);
         for (final record in measurements.where(
           (r) => desired.contains(r['stationId']) && r['hint'] == 3,
         )) {

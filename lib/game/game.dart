@@ -3,9 +3,11 @@ import 'package:flutter/foundation.dart';
 
 import '../data/station_catalog.dart';
 import 'game_difficulty.dart';
+import 'result_rating.dart';
 import 'station_choices.dart';
 export '../data/station_catalog.dart';
 export 'game_difficulty.dart';
+export 'result_rating.dart';
 
 String normalizeAnswer(String value) {
   final converted = value
@@ -82,6 +84,13 @@ class Game extends ChangeNotifier {
 
   int get questionCount => questions.length;
   int get maxScore => questionCount * 100;
+  ResultRating? get resultRating => finished
+      ? ResultRating.fromScore(
+          score: score,
+          maxScore: maxScore,
+          difficulty: difficulty,
+        )
+      : null;
 
   bool selectDifficulty(GameDifficulty difficulty) {
     if (started) return false;
