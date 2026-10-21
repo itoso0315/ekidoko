@@ -1130,7 +1130,10 @@ def main():
         )
 
     failures = 0
-    revision, dirty = git_revision()
+    revision, dirty = git_revision((
+        report_root,
+        ROOT / 'docs/screenshots/phase4',
+    ))
     if require_complete and not capture:
         parser.error(
             '--no-capture is only allowed with --allow-partial; formal '

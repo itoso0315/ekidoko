@@ -3,6 +3,7 @@
 import importlib.util
 import json
 from pathlib import Path
+import subprocess
 import tempfile
 import unittest
 
@@ -202,6 +203,52 @@ class QualityGateTest(unittest.TestCase):
             [(row['stationId'], row['hint']) for row in failed],
             [(station['id'], 3)],
         )
+
+    def test_git_cleanliness_ignores_qa_evidence_but_not_source_changes(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            subprocess.run(['git', 'init', '-q', str(root)], check=True)
+            subprocess.run(
+                ['git', '-C', str(root), 'config', 'user.name', 'QA Test'],
+                check=True,
+            )
+            subprocess.run(
+                [
+                    'git', '-C', str(root), 'config', 'user.email',
+                    'qa@example.invalid',
+                ],
+                check=True,
+            )
+            source = root / 'lib/source.dart'
+            source.parent.mkdir()
+            source.write_text('const value = 1;\n')
+            subprocess.run(
+                ['git', '-C', str(root), 'add', 'lib/source.dart'],
+                check=True,
+            )
+            subprocess.run(
+                ['git', '-C', str(root), 'commit', '-qm', 'baseline'],
+                check=True,
+            )
+            report = root / 'docs/qa/run/summary.json'
+            screenshot = root / 'docs/screenshots/phase4/run/stage.jpg'
+            report.parent.mkdir(parents=True)
+            screenshot.parent.mkdir(parents=True)
+            report.write_text('{}\n')
+            screenshot.write_bytes(b'image')
+
+            _, dirty = QA.git_revision(
+                [root / 'docs/qa', root / 'docs/screenshots/phase4'],
+                root=root,
+            )
+            self.assertFalse(dirty)
+
+            source.write_text('const value = 2;\n')
+            _, dirty = QA.git_revision(
+                [root / 'docs/qa', root / 'docs/screenshots/phase4'],
+                root=root,
+            )
+            self.assertTrue(dirty)
 
     def test_formal_summary_requires_screenshots_and_clean_tree(self):
         reports, capabilities, representatives = self.fixtures()
