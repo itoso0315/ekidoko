@@ -671,7 +671,6 @@ class RealStationMapState extends State<RealStationMap> {
                 ),
               ),
             if (_error == null) ...[
-              const Positioned(top: 12, left: 12, child: MapChip('実地図')),
               const Positioned(top: 12, right: 12, child: MapChip('↑ N')),
               if (widget.hint >= 3 &&
                   (_pocHints == null || _pocHints!.hasRepresentativeFacilities))

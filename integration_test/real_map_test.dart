@@ -1,5 +1,5 @@
-import 'dart:math';
 import 'dart:io';
+import 'dart:math';
 import 'package:ekidoko/map/map_hint_data.dart';
 import 'package:ekidoko/map/map_hints_poc.dart';
 import 'support/question_order_random.dart';
@@ -259,6 +259,7 @@ void main() {
         expect(find.text('Ekidoko'), findsOneWidget);
         expect(find.byType(HomeMapPreview), findsOneWidget);
         expect(find.byType(RealStationMap), findsNothing);
+        expect(find.text('地図を読み込んでいます…'), findsNothing);
         quality['testSetupToHomeMapMs'] = setupWatch.elapsedMilliseconds;
         final homeMap = tester.getSize(find.byType(HomeMapPreview));
         expect(homeMap.width, closeTo(homeMap.height, 0.1));
@@ -781,12 +782,16 @@ void main() {
           expect(find.text(question == 1 ? '残念！' : '正解！'), findsOneWidget);
           expect(find.text('${station.name}駅'), findsNWidgets(2));
 
-          final next = find.text(question == 9 ? '結果を見る' : '次の問題へ');
+          final next = find.text(question == 9 ? 'ランクを見る' : '次の問題へ');
           await tester.ensureVisible(next);
           initialWatch.reset();
           await tester.tap(next);
           await tester.pump(const Duration(milliseconds: 500));
         }
+        expect(find.byKey(const ValueKey('rank-reveal-popup')), findsOneWidget);
+        await tester.tap(find.byKey(const ValueKey('rank-reveal-popup')));
+        await tester.pump(const Duration(milliseconds: 500));
+        expect(find.byKey(const ValueKey('rank-reveal-popup')), findsNothing);
         for (final record in measurements.where(
           (r) => desired.contains(r['stationId']) && r['hint'] == 3,
         )) {
