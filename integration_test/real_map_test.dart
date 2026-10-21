@@ -8,6 +8,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
 import 'package:ekidoko/game/game.dart';
 import 'package:ekidoko/main.dart';
+import 'package:ekidoko/map/home_map_preview.dart';
 import 'package:ekidoko/map/real_station_map.dart';
 import 'package:ekidoko/map/quiz_map_style.dart';
 import 'package:ekidoko/screens/app_screen.dart';
@@ -193,6 +194,7 @@ void main() {
         final catalogLoadMs = catalogWatch.elapsedMilliseconds;
         final hintsWatch = Stopwatch()..start();
         await loadMapHints(catalog.stations.first);
+        await loadMapHintsPoc(catalog.stations.first);
         final hintAssetLoadMs = hintsWatch.elapsedMilliseconds;
         final mode = qualityMode && batch != 0
             ? GameDifficulty.hard
@@ -253,18 +255,12 @@ void main() {
           }
         }
 
-        for (var i = 0; i < 100; i++) {
-          await tester.pump(const Duration(milliseconds: 100));
-          await Future<void>.delayed(const Duration(milliseconds: 100));
-          final map = tester.state<RealStationMapState>(
-            find.byType(RealStationMap),
-          );
-          if (map.error != null) fail(map.error!);
-          if (map.ready) break;
-        }
+        await tester.pumpAndSettle();
         expect(find.text('Ekidoko'), findsOneWidget);
+        expect(find.byType(HomeMapPreview), findsOneWidget);
+        expect(find.byType(RealStationMap), findsNothing);
         quality['testSetupToHomeMapMs'] = setupWatch.elapsedMilliseconds;
-        final homeMap = tester.getSize(find.byType(RealStationMap));
+        final homeMap = tester.getSize(find.byType(HomeMapPreview));
         expect(homeMap.width, closeTo(homeMap.height, 0.1));
         if (batch == 0) {
           await capture(
