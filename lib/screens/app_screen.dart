@@ -541,7 +541,7 @@ class _AppScreenState extends State<AppScreen> {
         Row(
           children: [
             const Text(
-              'ekidoko',
+              'Ekidoko',
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),
             ),
             const Spacer(),

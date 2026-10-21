@@ -28,7 +28,8 @@
       "東京国立博物館",
       "東京都庁"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "shinjuku",
@@ -51,7 +52,8 @@
     ],
     "blockedLabels": [],
     "allowedLabels": [],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "shibuya",
@@ -76,7 +78,8 @@
     ],
     "blockedLabels": [],
     "allowedLabels": [],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "shinagawa",
@@ -98,7 +101,8 @@
     ],
     "blockedLabels": [],
     "allowedLabels": [],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "ueno",
@@ -120,7 +124,8 @@
     ],
     "blockedLabels": [],
     "allowedLabels": [],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "ikebukuro",
@@ -142,7 +147,8 @@
     ],
     "blockedLabels": [],
     "allowedLabels": [],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "nagoya",
@@ -168,7 +174,8 @@
       "名古屋市科学館",
       "名古屋市美術館"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "osaka",
@@ -195,7 +202,8 @@
       "大阪市立科学館",
       "大阪中之島美術館"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "kyoto",
@@ -223,7 +231,8 @@
       "京都水族館",
       "京都鉄道博物館"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "yokohama",
@@ -245,7 +254,8 @@
     ],
     "blockedLabels": [],
     "allowedLabels": [],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "sapporo",
@@ -275,7 +285,8 @@
       "札幌市時計台",
       "札幌市資料館"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "sendai",
@@ -303,7 +314,8 @@
       "仙台市博物館",
       "仙台市"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "omiya",
@@ -331,7 +343,8 @@
     "allowedLabels": [
       "大宮公園"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "kanazawa",
@@ -358,7 +371,8 @@
       "金沢21世紀美術館",
       "金沢市"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "shizuoka",
@@ -383,7 +397,8 @@
       "静岡市美術館",
       "静岡市"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "shin_osaka",
@@ -411,7 +426,8 @@
     ],
     "blockedLabels": [],
     "allowedLabels": [],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "sannomiya",
@@ -437,7 +453,8 @@
     ],
     "blockedLabels": [],
     "allowedLabels": [],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "hiroshima",
@@ -465,7 +482,8 @@
       "広島平和記念資料館",
       "広島市"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "takamatsu",
@@ -494,7 +512,8 @@
       "史跡高松城跡 玉藻公園",
       "高松市"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "hakata",
@@ -521,7 +540,8 @@
     "allowedLabels": [
       "博多区"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "hakodate",
@@ -546,7 +566,8 @@
     "allowedLabels": [
       "函館市"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "asahikawa",
@@ -573,7 +594,8 @@
     "allowedLabels": [
       "旭川市"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "morioka",
@@ -600,7 +622,8 @@
     "allowedLabels": [
       "盛岡市"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "kita_senju",
@@ -627,7 +650,8 @@
     ],
     "blockedLabels": [],
     "allowedLabels": [],
-    "easyEligible": false
+    "easyEligible": false,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "akihabara",
@@ -653,7 +677,8 @@
     ],
     "blockedLabels": [],
     "allowedLabels": [],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "tachikawa",
@@ -679,7 +704,8 @@
     "allowedLabels": [
       "立川市"
     ],
-    "easyEligible": false
+    "easyEligible": false,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "kawasaki",
@@ -707,7 +733,8 @@
       "川崎市",
       "川崎区"
     ],
-    "easyEligible": false
+    "easyEligible": false,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "chiba",
@@ -733,7 +760,8 @@
     "allowedLabels": [
       "千葉市"
     ],
-    "easyEligible": false
+    "easyEligible": false,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "funabashi",
@@ -760,7 +788,8 @@
     "allowedLabels": [
       "船橋市"
     ],
-    "easyEligible": false
+    "easyEligible": false,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "kashiwa",
@@ -784,7 +813,8 @@
     "allowedLabels": [
       "柏市"
     ],
-    "easyEligible": false
+    "easyEligible": false,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "kanayama",
@@ -810,7 +840,8 @@
     ],
     "blockedLabels": [],
     "allowedLabels": [],
-    "easyEligible": false
+    "easyEligible": false,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "chikusa",
@@ -835,7 +866,8 @@
     "allowedLabels": [
       "千種区"
     ],
-    "easyEligible": false
+    "easyEligible": false,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "gifu",
@@ -861,7 +893,8 @@
     "allowedLabels": [
       "岐阜市"
     ],
-    "easyEligible": false
+    "easyEligible": false,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "hamamatsu",
@@ -886,7 +919,8 @@
     "allowedLabels": [
       "浜松市"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "nagano",
@@ -911,7 +945,8 @@
     "allowedLabels": [
       "長野市"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "niigata",
@@ -937,7 +972,8 @@
     "allowedLabels": [
       "新潟市"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "tennoji",
@@ -966,7 +1002,8 @@
     "allowedLabels": [
       "天王寺区"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "kyobashi_osaka",
@@ -993,7 +1030,8 @@
     ],
     "blockedLabels": [],
     "allowedLabels": [],
-    "easyEligible": false
+    "easyEligible": false,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "namba_nankai",
@@ -1021,7 +1059,8 @@
     ],
     "blockedLabels": [],
     "allowedLabels": [],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "nara",
@@ -1045,7 +1084,8 @@
     "allowedLabels": [
       "奈良市"
     ],
-    "easyEligible": false
+    "easyEligible": false,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "kobe_jr",
@@ -1070,7 +1110,8 @@
     "allowedLabels": [
       "神戸市"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "okayama",
@@ -1098,7 +1139,8 @@
     "allowedLabels": [
       "岡山市"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "fukuyama",
@@ -1123,7 +1165,8 @@
     "allowedLabels": [
       "福山市"
     ],
-    "easyEligible": false
+    "easyEligible": false,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "matsue",
@@ -1147,7 +1190,8 @@
     "allowedLabels": [
       "松江市"
     ],
-    "easyEligible": false
+    "easyEligible": false,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "tokushima",
@@ -1171,7 +1215,8 @@
     "allowedLabels": [
       "徳島市"
     ],
-    "easyEligible": false
+    "easyEligible": false,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "kochi",
@@ -1197,7 +1242,8 @@
     "allowedLabels": [
       "高知市"
     ],
-    "easyEligible": false
+    "easyEligible": false,
+    "hasHighSpeedRailway": false
   },
   {
     "id": "kokura",
@@ -1220,7 +1266,8 @@
     ],
     "blockedLabels": [],
     "allowedLabels": [],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "kumamoto",
@@ -1247,7 +1294,8 @@
     "allowedLabels": [
       "熊本市"
     ],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "kagoshima_chuo",
@@ -1272,7 +1320,8 @@
     ],
     "blockedLabels": [],
     "allowedLabels": [],
-    "easyEligible": true
+    "easyEligible": true,
+    "hasHighSpeedRailway": true
   },
   {
     "id": "kurume",
@@ -1297,6 +1346,7 @@
     "allowedLabels": [
       "久留米市"
     ],
-    "easyEligible": false
+    "easyEligible": false,
+    "hasHighSpeedRailway": true
   }
 ]

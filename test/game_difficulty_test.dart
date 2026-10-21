@@ -27,6 +27,7 @@ Station copyStation(
   difficulty: station.difficulty,
   enabled: enabled ?? station.enabled,
   easyEligible: station.easyEligible,
+  hasHighSpeedRailway: station.hasHighSpeedRailway,
 );
 
 void main() {

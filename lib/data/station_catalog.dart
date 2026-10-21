@@ -13,6 +13,7 @@ class Station {
     required this.difficulty,
     required this.enabled,
     this.easyEligible = true,
+    this.hasHighSpeedRailway = false,
     this.osmNodeId,
     this.routes = const [],
     this.answerAliases = const [],
@@ -29,6 +30,7 @@ class Station {
   final int difficulty;
   final bool enabled;
   final bool easyEligible;
+  final bool hasHighSpeedRailway;
   final int? osmNodeId;
   final List<String> routes;
   final List<String> answerAliases;
@@ -137,6 +139,9 @@ class StationCatalog {
       if (row['easyEligible'] is! bool) {
         errors.add('$location: easyEligible はtrue/falseが必要です');
       }
+      if (row['hasHighSpeedRailway'] is! bool) {
+        errors.add('$location: hasHighSpeedRailway はtrue/falseが必要です');
+      }
       final node = row['osmNodeId'];
       if (node != null && (node is! int || node <= 0)) {
         errors.add('$location: osmNodeId は正の整数が必要です');
@@ -170,6 +175,7 @@ class StationCatalog {
           difficulty: difficulty as int,
           enabled: row['enabled'] as bool,
           easyEligible: row['easyEligible'] as bool,
+          hasHighSpeedRailway: row['hasHighSpeedRailway'] as bool,
           osmNodeId: node as int?,
           routes: routes,
           answerAliases: aliases,

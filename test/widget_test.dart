@@ -126,6 +126,7 @@ void main() {
     }
     expect(find.text('今回のリザルト'), findsNothing);
     expect(find.text('TOTAL SCORE'), findsOneWidget);
+    expect(find.text('Ekidoko'), findsOneWidget);
     expect(game.correctCount, 9);
     await tester.ensureVisible(find.text('もう一度遊ぶ'));
     await tester.tap(find.text('もう一度遊ぶ'));

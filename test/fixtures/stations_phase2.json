@@ -27,7 +27,8 @@
       "東京国立近代美術館",
       "東京国立博物館",
       "東京都庁"
-    ]
+    ],
+    "hasHighSpeedRailway": true
   },
   {
     "id": "shinjuku",
@@ -49,7 +50,8 @@
       "sinjuku"
     ],
     "blockedLabels": [],
-    "allowedLabels": []
+    "allowedLabels": [],
+    "hasHighSpeedRailway": false
   },
   {
     "id": "shibuya",
@@ -73,7 +75,8 @@
       "澀谷"
     ],
     "blockedLabels": [],
-    "allowedLabels": []
+    "allowedLabels": [],
+    "hasHighSpeedRailway": false
   },
   {
     "id": "shinagawa",
@@ -94,7 +97,8 @@
       "shinagawa"
     ],
     "blockedLabels": [],
-    "allowedLabels": []
+    "allowedLabels": [],
+    "hasHighSpeedRailway": true
   },
   {
     "id": "ueno",
@@ -115,7 +119,8 @@
       "ueno"
     ],
     "blockedLabels": [],
-    "allowedLabels": []
+    "allowedLabels": [],
+    "hasHighSpeedRailway": true
   },
   {
     "id": "ikebukuro",
@@ -136,7 +141,8 @@
       "ikebukuro"
     ],
     "blockedLabels": [],
-    "allowedLabels": []
+    "allowedLabels": [],
+    "hasHighSpeedRailway": false
   },
   {
     "id": "nagoya",
@@ -161,7 +167,8 @@
       "名古屋城",
       "名古屋市科学館",
       "名古屋市美術館"
-    ]
+    ],
+    "hasHighSpeedRailway": true
   },
   {
     "id": "osaka",
@@ -187,7 +194,8 @@
       "大阪城",
       "大阪市立科学館",
       "大阪中之島美術館"
-    ]
+    ],
+    "hasHighSpeedRailway": false
   },
   {
     "id": "kyoto",
@@ -214,7 +222,8 @@
       "京都国立博物館",
       "京都水族館",
       "京都鉄道博物館"
-    ]
+    ],
+    "hasHighSpeedRailway": true
   },
   {
     "id": "yokohama",
@@ -235,7 +244,8 @@
       "yokohama"
     ],
     "blockedLabels": [],
-    "allowedLabels": []
+    "allowedLabels": [],
+    "hasHighSpeedRailway": false
   },
   {
     "id": "sapporo",
@@ -264,7 +274,8 @@
       "さっぽろテレビ塔",
       "札幌市時計台",
       "札幌市資料館"
-    ]
+    ],
+    "hasHighSpeedRailway": false
   },
   {
     "id": "sendai",
@@ -291,7 +302,8 @@
       "仙台城跡",
       "仙台市博物館",
       "仙台市"
-    ]
+    ],
+    "hasHighSpeedRailway": true
   },
   {
     "id": "omiya",
@@ -318,7 +330,8 @@
     "blockedLabels": [],
     "allowedLabels": [
       "大宮公園"
-    ]
+    ],
+    "hasHighSpeedRailway": true
   },
   {
     "id": "kanazawa",
@@ -344,7 +357,8 @@
       "金沢城公園",
       "金沢21世紀美術館",
       "金沢市"
-    ]
+    ],
+    "hasHighSpeedRailway": true
   },
   {
     "id": "shizuoka",
@@ -368,7 +382,8 @@
     "allowedLabels": [
       "静岡市美術館",
       "静岡市"
-    ]
+    ],
+    "hasHighSpeedRailway": true
   },
   {
     "id": "shin_osaka",
@@ -395,7 +410,8 @@
       "shinosaka"
     ],
     "blockedLabels": [],
-    "allowedLabels": []
+    "allowedLabels": [],
+    "hasHighSpeedRailway": true
   },
   {
     "id": "sannomiya",
@@ -420,7 +436,8 @@
       "sannomiya"
     ],
     "blockedLabels": [],
-    "allowedLabels": []
+    "allowedLabels": [],
+    "hasHighSpeedRailway": false
   },
   {
     "id": "hiroshima",
@@ -447,7 +464,8 @@
       "広島城",
       "広島平和記念資料館",
       "広島市"
-    ]
+    ],
+    "hasHighSpeedRailway": true
   },
   {
     "id": "takamatsu",
@@ -475,7 +493,8 @@
       "高松城",
       "史跡高松城跡 玉藻公園",
       "高松市"
-    ]
+    ],
+    "hasHighSpeedRailway": false
   },
   {
     "id": "hakata",
@@ -501,6 +520,7 @@
     "blockedLabels": [],
     "allowedLabels": [
       "博多区"
-    ]
+    ],
+    "hasHighSpeedRailway": true
   }
 ]

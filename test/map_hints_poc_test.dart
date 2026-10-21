@@ -68,6 +68,11 @@ void main() {
         expect(parsed.facilities['type'], 'FeatureCollection');
         expect(parsed.routes['type'], 'FeatureCollection');
         expect(parsed.highSpeedRailways['type'], 'FeatureCollection');
+        expect(
+          parsed.hasHighSpeedRailways,
+          station.hasHighSpeedRailway,
+          reason: station.id,
+        );
         expect(parsed.representativeFacilities['type'], 'FeatureCollection');
       }
     },

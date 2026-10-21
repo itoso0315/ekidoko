@@ -45,6 +45,7 @@ void main() {
       'difficulty',
       'enabled',
       'easyEligible',
+      'hasHighSpeedRailway',
     ]) {
       final row = Map<String, dynamic>.from(source.first as Map)..remove(field);
       expect(
@@ -64,6 +65,7 @@ void main() {
       {'longitude': 181},
       {'enabled': 'true'},
       {'easyEligible': 'true'},
+      {'hasHighSpeedRailway': 'true'},
       {'difficulty': 0},
     ]) {
       expect(

@@ -15,6 +15,7 @@ Station candidate(
   String prefecture = '東京都',
   String region = '関東',
   bool enabled = true,
+  bool hasHighSpeedRailway = false,
 }) => Station(
   id: id,
   name: name ?? id,
@@ -25,6 +26,7 @@ Station candidate(
   region: region,
   difficulty: 1,
   enabled: enabled,
+  hasHighSpeedRailway: hasHighSpeedRailway,
 );
 
 List<Station> options(List<Station> pool, {int seed = 0}) =>
@@ -52,6 +54,7 @@ StationCatalog expandedCatalog(int count, {bool sameName = false}) {
           'difficulty': 1,
           'enabled': true,
           'easyEligible': true,
+          'hasHighSpeedRailway': false,
         },
     ]),
   );
@@ -91,6 +94,38 @@ void main() {
       expect(ids(selected), containsAll(['answer', 'local']));
       expect(selected.where((s) => s.id.startsWith('regional_')), hasLength(2));
       expect(selected.every((s) => s.region == '関東'), true);
+    }
+  });
+
+  test('Hard Shinkansen answers only use stations with verified Shinkansen track', () {
+    final pool = [
+      candidate('answer', hasHighSpeedRailway: true),
+      candidate('local_shinkansen', hasHighSpeedRailway: true),
+      candidate(
+        'regional_shinkansen',
+        prefecture: '神奈川県',
+        hasHighSpeedRailway: true,
+      ),
+      candidate(
+        'national_shinkansen',
+        prefecture: '福岡県',
+        region: '九州',
+        hasHighSpeedRailway: true,
+      ),
+      for (var i = 0; i < 5; i++) candidate('ordinary_$i'),
+    ];
+    final generator = StationChoiceGenerator(
+      stations: pool,
+      random: Random(3),
+    );
+
+    for (var seed = 0; seed < 30; seed++) {
+      final selected = generator.generate(
+        pool.first,
+        difficulty: GameDifficulty.hard,
+      );
+      expect(selected, hasLength(4));
+      expect(selected.every((station) => station.hasHighSpeedRailway), true);
     }
   });
 
@@ -332,33 +367,29 @@ void main() {
         phase2Catalog.stations.firstWhere((s) => s.id == id);
     List<Station> generate(String id) =>
         generator.generate(station(id), difficulty: GameDifficulty.hard);
-    expect(ids(generate('shin_osaka')), {
-      'shin_osaka',
-      'osaka',
-      'kyoto',
-      'sannomiya',
-    });
-    expect(ids(generate('kyoto')), {
-      'kyoto',
-      'osaka',
-      'shin_osaka',
-      'sannomiya',
-    });
+    for (final id in ['shin_osaka', 'kyoto', 'tokyo', 'nagoya', 'hakata']) {
+      final answer = station(id);
+      final selected = generate(id);
+      expect(selected, contains(answer));
+      expect(selected, hasLength(4));
+      if (answer.hasHighSpeedRailway) {
+        expect(selected.every((s) => s.hasHighSpeedRailway), true, reason: id);
+      }
+    }
     final tokyo = generate('tokyo');
-    expect(tokyo.every((s) => s.prefecture == '東京都'), true);
+    expect(tokyo.every((s) => s.hasHighSpeedRailway), true);
+    final tokyoShinkansenStations = phase2Catalog.stations.where(
+      (s) =>
+          s.id != 'tokyo' &&
+          s.prefecture == '東京都' &&
+          s.hasHighSpeedRailway,
+    );
+    expect(tokyo, containsAll(tokyoShinkansenStations));
     final nagoya = generate('nagoya');
-    expect(ids(nagoya), containsAll(['nagoya', 'shizuoka', 'kanazawa']));
-    expect(
-      nagoya.every(
-        (s) => ['関東', '東北', '中部', '中部・北陸', '近畿', '関西'].contains(s.region),
-      ),
-      true,
-    );
+    expect(nagoya.every((s) => s.hasHighSpeedRailway), true);
+    expect(nagoya.every((s) => s.region.isNotEmpty), true);
     expect(ids(generate('sapporo')), containsAll(['sapporo', 'sendai']));
-    expect(
-      ids(generate('hakata')),
-      containsAll(['hakata', 'hiroshima', 'takamatsu']),
-    );
+    expect(ids(generate('hakata')), containsAll(['hakata', 'hiroshima']));
     var usedStationOutsideQuestions = false;
     for (var seed = 0; seed < 20; seed++) {
       final game = Game(catalog: catalog, random: Random(seed))..start();

@@ -216,7 +216,10 @@ void main() {
       for (final answer in stations) {
         final local = stations
             .where(
-              (s) => s.id != answer.id && s.prefecture == answer.prefecture,
+              (s) =>
+                  s.id != answer.id &&
+                  s.prefecture == answer.prefecture &&
+                  (!answer.hasHighSpeedRailway || s.hasHighSpeedRailway),
             )
             .toList();
         for (var seed = 0; seed < 30; seed++) {
@@ -225,6 +228,13 @@ void main() {
             random: Random(seed),
           ).generate(answer, difficulty: GameDifficulty.hard);
           final wrong = choices.where((s) => s.id != answer.id).toList();
+          if (answer.hasHighSpeedRailway) {
+            expect(
+              choices.every((s) => s.hasHighSpeedRailway),
+              true,
+              reason: answer.id,
+            );
+          }
           if (local.length >= 3) {
             expect(
               wrong.every((s) => s.prefecture == answer.prefecture),
@@ -268,7 +278,11 @@ void main() {
           answer,
           difficulty: GameDifficulty.hard,
         );
-        expect(choices.where((s) => s.prefecture == '愛知県'), hasLength(3));
+        if (answer.hasHighSpeedRailway) {
+          expect(choices.every((s) => s.hasHighSpeedRailway), true);
+        } else {
+          expect(choices.where((s) => s.prefecture == '愛知県'), hasLength(3));
+        }
         expect(choices.every((s) => ['中部', '中部・北陸'].contains(s.region)), true);
       }
     },

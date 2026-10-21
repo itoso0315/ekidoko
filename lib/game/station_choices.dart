@@ -55,7 +55,7 @@ class StationChoiceGenerator {
   final Random _random;
 
   List<Station> generate(Station answer, {required GameDifficulty difficulty}) {
-    final available = difficulty == GameDifficulty.easy
+    var available = difficulty == GameDifficulty.easy
         ? _stations.where((s) => s.easyEligible).toList()
         : _stations;
     if (!available.any((s) => s.id == answer.id)) {
@@ -63,9 +63,14 @@ class StationChoiceGenerator {
         '[${answer.id}] ${answer.name}: 正解駅が出題可能な駅に含まれていません',
       ]);
     }
+    if (difficulty == GameDifficulty.hard && answer.hasHighSpeedRailway) {
+      available = available.where((s) => s.hasHighSpeedRailway).toList();
+    }
     if (available.map(_nameKey).toSet().length < 4) {
       throw StationDataException([
-        '${difficulty.label}の4択には表示駅名の異なる有効な駅が4駅以上必要です。easyEligibleを確認してください。',
+        answer.hasHighSpeedRailway && difficulty == GameDifficulty.hard
+            ? '新幹線が通る駅を正解とするHardの4択には、新幹線が通る駅名の異なる有効な駅が4駅以上必要です。'
+            : '${difficulty.label}の4択には表示駅名の異なる有効な駅が4駅以上必要です。easyEligibleを確認してください。',
       ]);
     }
     final region = _regionKey(answer.region);
