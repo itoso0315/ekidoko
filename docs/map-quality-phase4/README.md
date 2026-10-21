@@ -49,4 +49,4 @@
 - `python3 -m unittest tool.test_check_station_maps`: 成功
 - 全50駅のOSMデータ生成: 取得失敗0、分類失敗0
 
-Simulatorの地図読み込みタイムアウトを解消した後、200パターンの正式検証を再実行してください。iPhone実機へのPhase 4最新版のインストール・起動も未確認です。
+Simulatorの地図読み込みタイムアウトを解消した後、200パターンの正式検証を再実行してください。iPhone「いほん」は無線接続を検出しましたが、Developer Modeが無効でFlutterのインストールが拒否されました。端末上でDeveloper Modeを有効化した後のPhase 4最新版のインストール・起動は未確認です。
