@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>地図データ・ライセンス | ekidoko</title>
+    <link rel="stylesheet" href="site.css">
+  </head>
+  <body>
+    <header><a href="index.html">ekidoko 公開情報</a></header>
+    <main>
+      <h1>地図データ・ライセンス</h1>
+      <p class="notice">公開前草案。OSM内に記録された第三者由来データの権利確認が残っています。下記のデータ公開リンクはコードの公開状態に依存しており、公開版の固定データ配布URLは未確定です。</p>
+
+      <h2>地図上の表示</h2>
+      <p>アプリ内の地図には、次の出典を表示しています。</p>
+      <p><strong>© OpenMapTiles · © OpenStreetMap contributors</strong></p>
+      <p>出典表示をタップすると、OpenStreetMapのODbL、OpenMapTiles、OpenFreeMapの利用条件、関連ライセンスを確認できます。</p>
+
+      <h2>地図データと派生データ</h2>
+      <ul>
+        <li><strong>OpenStreetMap：</strong>地図データおよびアプリに同梱するOSM由来の駅座標・鉄道路線形状・施設位置・名称等は、記録上ODbL 1.0の対象です。OpenStreetMap contributorsへの表示とライセンスへのリンクを維持します。</li>
+        <li><strong>OpenMapTiles：</strong>スキーマ関連コードはBSD 3-Clause、地図デザインはCC BY 4.0です。地図表示ではOpenMapTilesへのクレジットを表示します。</li>
+        <li><strong>OpenFreeMap：</strong>タイル・フォント配信サービスです。公開条件では商用利用が可能と案内されていますが、サービスは現状保証なしで提供され、SLAはありません。利用時点の<a href="https://openfreemap.org/tos/">利用条件</a>を確認してください。</li>
+        <li><strong>MapLibre：</strong>FlutterプラグインはBSD 3-Clause、MapLibre NativeはBSD 2-Clauseです。</li>
+        <li><strong>Noto Sans：</strong>SIL Open Font License 1.1です。</li>
+      </ul>
+
+      <h2>OSM由来データの入手先</h2>
+      <p>アプリに含まれる機械可読データは、公開リポジトリの該当コミットから確認できます。</p>
+      <ul>
+        <li><a href="https://github.com/itoso0315/ekidoko/tree/ada9959697619431f495cbc9d318a6cb0809cf34/assets/data">駅カタログ</a></li>
+        <li><a href="https://github.com/itoso0315/ekidoko/tree/ada9959697619431f495cbc9d318a6cb0809cf34/assets/maps">実行時地図ヒントデータ</a></li>
+        <li><a href="https://github.com/itoso0315/ekidoko/tree/ada9959697619431f495cbc9d318a6cb0809cf34/docs/map-hints-50stations">取得元・監査記録</a></li>
+        <li><a href="https://github.com/itoso0315/ekidoko/tree/ada9959697619431f495cbc9d318a6cb0809cf34/docs/map-hints-poc">先行検証のOSM取得・監査記録</a></li>
+        <li><a href="https://github.com/itoso0315/ekidoko/blob/ada9959697619431f495cbc9d318a6cb0809cf34/docs/station-coordinate-sources.json">駅座標の取得記録</a></li>
+      </ul>
+      <p>OSM由来データのライセンスは<a href="https://opendatacommons.org/licenses/odbl/1-0/">ODbL 1.0</a>です。これらのデータについて、アプリのプログラムとは別に、利用・改変・再配布の条件が適用されます。</p>
+
+      <h2>関連する公式情報</h2>
+      <ul>
+        <li><a href="https://www.openstreetmap.org/copyright">OpenStreetMap著作権・ライセンス表示</a></li>
+        <li><a href="https://openmaptiles.org/">OpenMapTiles</a> / <a href="https://github.com/openmaptiles/openmaptiles/blob/master/LICENSE.md">ライセンス</a></li>
+        <li><a href="https://openfreemap.org/">OpenFreeMap</a> / <a href="https://openfreemap.org/privacy/">プライバシー</a></li>
+        <li><a href="https://pub.dev/packages/maplibre_gl/license">MapLibre Flutterプラグインのライセンス</a> / <a href="https://github.com/maplibre/maplibre-native/blob/main/LICENSE.md">MapLibre Nativeのライセンス</a></li>
+        <li><a href="https://openfontlicense.org/">SIL Open Font License</a></li>
+      </ul>
+      <p>OpenStreetMapデータに関する案内は<a href="https://www.openstreetmap.org/copyright">OpenStreetMapの著作権ページ</a>、OSM由来の本アプリデータの帰属・公開範囲は上記の監査記録をご確認ください。</p>
+    </main>
+    <footer><nav><a href="privacy-policy.html">プライバシーポリシー</a><a href="support.html">サポート</a></nav></footer>
+  </body>
+</html>

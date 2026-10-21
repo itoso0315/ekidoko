@@ -818,7 +818,7 @@ void showMapAttribution(BuildContext context) => showModalBottomSheet<void>(
           ),
           const SizedBox(height: 8),
           const Text(
-            '地図データ：OpenStreetMap（ODbL）\nスキーマ：OpenMapTiles（CC BY 4.0）\n配信：OpenFreeMap · フォント：Noto Sans（OFL）',
+            '地図データ：OpenStreetMap（ODbL 1.0）\nOpenMapTiles：コード BSD 3-Clause / デザイン CC BY 4.0\n配信：OpenFreeMap · 地図SDK：MapLibre（Flutter BSD 3-Clause / Native BSD 2-Clause）\nフォント：Noto Sans（SIL OFL 1.1）',
             style: TextStyle(fontSize: 13, height: 1.8),
           ),
           ...{

@@ -27,6 +27,10 @@ Easy対象34駅：東京、新宿、渋谷、品川、上野、池袋、名古�
 
 取得元、取得日、OSM応答hash、施設分類と座標、路線relation、採否理由は[50駅データ技術記録](docs/map-hints-50stations/README.md)と同ディレクトリの監査資料に記録しています。200パターン（50駅×4段階）のnative描画検証結果と手動確認項目は[Phase 4品質検証](docs/map-quality-phase4/README.md)を参照してください。東京・上野・京都で先行確認した実装詳細とPoC時点の結果は[PoC技術検証](docs/map-hints-poc/README.md)に残しています。
 
+## App Store公開ページ案
+
+プライバシーポリシー、サポート、地図ライセンスの公開前草案と調査記録は[App Store公開準備資料](docs/app-store/README.md)にあります。問い合わせ先はメールで案内しています。GitHub Pagesは未設定で、ページの一般公開やApp Store Connectへの登録は行っていません。運営者の氏名・住所等の表記、データ来歴・権利確認を終えてから公開してください。
+
 ## 起動
 
 検証環境：Flutter 3.44.8 / Dart 3.12.2 / Xcode、iOS 15以降。
