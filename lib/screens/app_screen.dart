@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../game/game.dart';
 import '../main.dart';
+import '../map/home_map_preview.dart';
 import '../map/station_map.dart';
 import '../map/map_availability.dart';
 
@@ -146,7 +147,9 @@ class _AppScreenState extends State<AppScreen> {
                       const SizedBox(height: 16),
                       AspectRatio(
                         aspectRatio: 1,
-                        child: widget.mapBuilder(game.stations.first, 0, false),
+                        child: widget.mapBuilder == hybridMapBuilder
+                            ? HomeMapPreview(station: game.stations.first)
+                            : widget.mapBuilder(game.stations.first, 0, false),
                       ),
                       const SizedBox(height: 12),
                       const Text(
@@ -221,8 +224,8 @@ class _AppScreenState extends State<AppScreen> {
       const SizedBox(height: 8),
       Text(
         game.difficulty == GameDifficulty.easy
-            ? '有名な駅から出題！全国ランダム4択'
-            : '全国の駅に挑戦！近隣エリア中心の4択',
+            ? '有名な駅から出題！全国ランダム'
+            : '全国の駅に挑戦！近隣エリア中心',
         style: const TextStyle(fontSize: 11, color: Color(0xff74847b)),
       ),
     ],

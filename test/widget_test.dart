@@ -3,6 +3,8 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ekidoko/game/game.dart';
+import 'package:ekidoko/map/home_map_preview.dart';
+import 'package:ekidoko/map/real_station_map.dart';
 import 'package:ekidoko/screens/app_screen.dart';
 import 'package:ekidoko/map/station_map.dart';
 
@@ -71,6 +73,22 @@ void main() {
     expect(game.score, 10);
   });
 
+  testWidgets('default home map preview uses bundled data without map tiles', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      MaterialApp(
+        home: AppScreen(game: Game(catalog: catalog)),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.byType(HomeMapPreview), findsOneWidget);
+    expect(find.byType(RealStationMap), findsNothing);
+    expect(find.text('地図を読み込んでいます…'), findsNothing);
+    expect(find.text('© OpenStreetMap contributors'), findsOneWidget);
+  });
+
   testWidgets('home to complete game and replay, including incorrect answer', (
     tester,
   ) async {
@@ -88,6 +106,7 @@ void main() {
     expect(find.text('Ekidoko'), findsOneWidget);
     expect(find.text('10問'), findsNothing);
     expect(find.text('4択クイズ'), findsNothing);
+    expect(find.textContaining('4択'), findsNothing);
     expect(find.text('登録不要'), findsNothing);
     final homeMap = tester.getSize(find.byType(StationMap));
     expect(homeMap.width, homeMap.height);
