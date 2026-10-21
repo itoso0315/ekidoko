@@ -86,6 +86,9 @@ void main() {
       ),
     );
     expect(find.text('Ekidoko'), findsOneWidget);
+    expect(find.text('10問'), findsNothing);
+    expect(find.text('4択クイズ'), findsNothing);
+    expect(find.text('登録不要'), findsNothing);
     final homeMap = tester.getSize(find.byType(StationMap));
     expect(homeMap.width, homeMap.height);
     expect(homeMap.height, greaterThan(235));

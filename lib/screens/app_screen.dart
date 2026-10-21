@@ -164,13 +164,6 @@ class _AppScreenState extends State<AppScreen> {
             ),
             Column(
               children: [
-                const Wrap(
-                  alignment: WrapAlignment.center,
-                  spacing: 8,
-                  runSpacing: 8,
-                  children: [Tag('10問'), Tag('4択クイズ'), Tag('登録不要')],
-                ),
-                const SizedBox(height: 12),
                 difficultySelector(),
                 const SizedBox(height: 12),
                 FilledButton(
