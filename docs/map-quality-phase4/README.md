@@ -50,3 +50,10 @@
 - 全50駅のOSMデータ生成: 取得失敗0、分類失敗0
 
 Simulatorの地図読み込みタイムアウトを解消した後、200パターンの正式検証を再実行してください。iPhone「いほん」は無線接続を検出しましたが、Developer Modeが無効でFlutterのインストールが拒否されました。端末上でDeveloper Modeを有効化した後のPhase 4最新版のインストール・起動は未確認です。
+
+### 起動確認（2026-10-21）
+
+- `feature/map-hints-50stations` の現行コードを `flutter build ios --simulator` でビルドし、iPhone 17 Pro Simulator（iOS 26.5）へインストールしました。
+- `jp.ekidoko.ekidoko` の起動成功を確認し、`launchctl` 上でプロセス PID 84353 が起動中であることを確認しました。
+- 起動画面のスクリーンショットでホーム画面、実地図、施設アイコン、新幹線の紫線、ゲーム開始ボタンが表示されることを確認しました。
+- 実機「いほん」は接続を検出しましたが、Developer Modeが無効のためインストールできず、実機起動は未確認です。
