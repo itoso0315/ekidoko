@@ -6,6 +6,11 @@ import '../main.dart';
 import '../map/home_map_preview.dart';
 import '../map/station_map.dart';
 import '../map/map_availability.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+const _privacyPolicyUrl =
+    'https://itoso0315.github.io/ekidoko-pages/privacy-policy.html';
+const _supportUrl = 'https://itoso0315.github.io/ekidoko-pages/support.html';
 
 class AppScreen extends StatefulWidget {
   const AppScreen({
@@ -52,6 +57,33 @@ class _AppScreenState extends State<AppScreen> {
         highestRankError = error;
         isLoadingHighestRank = false;
       });
+    }
+  }
+
+  Future<void> openPublicPage(String url) async {
+    try {
+      final opened = await launchUrl(
+        Uri.parse(url),
+        mode: LaunchMode.externalApplication,
+      );
+      if (!opened && mounted) {
+        showDialog<void>(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text('ページを開けませんでした'),
+            content: SelectableText(url),
+          ),
+        );
+      }
+    } on PlatformException catch (error) {
+      if (!mounted) return;
+      showDialog<void>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('ページを開けませんでした'),
+          content: SelectableText('$url\n\n$error'),
+        ),
+      );
     }
   }
 
@@ -399,6 +431,22 @@ class _AppScreenState extends State<AppScreen> {
                 Text(
                   '${game.stations.length}駅すべて実地図',
                   style: TextStyle(fontSize: 11, color: Color(0xff74847b)),
+                ),
+                const SizedBox(height: 4),
+                Wrap(
+                  alignment: WrapAlignment.center,
+                  children: [
+                    TextButton(
+                      key: const ValueKey('privacy-policy-link'),
+                      onPressed: () => openPublicPage(_privacyPolicyUrl),
+                      child: const Text('プライバシーポリシー'),
+                    ),
+                    TextButton(
+                      key: const ValueKey('support-page-link'),
+                      onPressed: () => openPublicPage(_supportUrl),
+                      child: const Text('サポート'),
+                    ),
+                  ],
                 ),
               ],
             ),

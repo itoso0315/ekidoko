@@ -112,6 +112,8 @@ void main() {
       find.text('© OpenMapTiles · © OpenStreetMap contributors'),
       findsOneWidget,
     );
+    expect(find.byKey(const ValueKey('privacy-policy-link')), findsOneWidget);
+    expect(find.byKey(const ValueKey('support-page-link')), findsOneWidget);
   });
 
   testWidgets('home to complete game and replay, including incorrect answer', (
